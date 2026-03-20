@@ -26,7 +26,7 @@ columns_to_drop = [
     "product_rating",
     "overall_rating",
     "brand",
-    "product_specifications"
+    "description"
 ]
 df = df.drop(columns=columns_to_drop, errors="ignore")
 
@@ -118,7 +118,7 @@ df["likes"] = 0
 
 #deal with empty value
 df["product_name"] = df["product_name"].fillna("Unknown Product")
-df["description"] = df["description"].fillna("")
+df["product_specifications"] = df["product_specifications"].fillna("")
 df["product_category_tree"] = df["product_category_tree"].fillna("Unknown Category")
 
 
@@ -135,7 +135,7 @@ with app.app_context():
             category=row["category"],
             price=row["price"],
             image=row["image_url"],
-            description=row["description"],
+            product_specification =row["product_specifications"],
             condition=row["condition"],
             update_timestamp=row["update_timestamp"],
             likes=row["likes"]

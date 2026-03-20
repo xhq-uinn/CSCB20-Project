@@ -15,7 +15,23 @@
 
 <img src="{{ item.image }}" width="200">
 
-<p>{{ item.description }}</p>
+<h2>Specifications</h2>
+
+{% if item.product_specification %}
+
+    {% for spec in item.product_specification %}
+        <p>
+            {% if spec.key %}
+                <b>{{ spec.key }}:</b> {{ spec.value }}
+            {% else %}
+                {{ spec.value }}
+            {% endif %}
+        </p>
+    {% endfor %}
+
+{% else %}
+    <p>No specifications available.</p>
+{% endif %}
 
 </body>
 </html>
