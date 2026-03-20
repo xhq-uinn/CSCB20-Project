@@ -81,8 +81,10 @@ def get_first_valid_image(image_str):
                     return img.strip()
 
         return ""
-    except:
-        return ""
+    except Exception as e:
+        print("JSON ERROR:", e)
+        item.product_specification = []
+
 df["image_url"] = df["image"].apply(get_first_valid_image)
 
 
