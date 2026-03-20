@@ -1,0 +1,37 @@
+from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+import os
+
+app = Flask(__name__)
+
+app.config['SECRET_KEY'] = "yes-this-is-a-secret"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///items.db"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+# define entity: Item
+# Item(id(PK), name, category, price, image, discription, condition, update_timestamp, likes)
+class Item(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    category = db.Column(db.String(100))
+    price = db.Column(db.Integer)
+    image = db.Column(db.Text)
+    description = db.Column(db.Text)
+    condition = db.Column(db.String(100))
+    update_timestamp = db.Column(db.String(50))
+    likes = db.Column(db.Integer, default=0)
+    
+
+with app.app_context():
+    if not os.path.exists("items.db"):
+        db.create_all()
+
+@app.route("/")
+def home():
+    return render_template("home.html")
+
+if __name__ == "__main__":
+    app.run(debug=True)
