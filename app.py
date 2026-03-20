@@ -29,9 +29,21 @@ with app.app_context():
     if not os.path.exists("items.db"):
         db.create_all()
 
+# home page
 @app.route("/")
 def home():
+    items = Item.query.limit(20).all() # take 20 rows from db, save to items
     return render_template("home.html")
+
+# item detail page
+@app.route("/item/<int:item_id>")
+def item(item_id):
+    return render_template("item.html")
+
+# search and filter page
+@app.route("/filter")
+def filter():
+    return render_template("filter.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
