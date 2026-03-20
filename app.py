@@ -32,7 +32,7 @@ with app.app_context():
 @app.route("/")
 def home():
     items = Item.query.limit(20).all() # take 20 rows from db, save to items
-    return render_template("home.html")
+    return render_template("home.html", items=items)
 
 # item detail page
 @app.route("/item/<int:item_id>")
