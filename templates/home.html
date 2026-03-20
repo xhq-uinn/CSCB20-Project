@@ -1,2 +1,23 @@
-<h1>UTSC MARKETPLACE</h1>
-<h2>Home Page</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+
+<h1>Items</h1>
+
+{% for item in items %}
+
+    <div>
+        <h3>{{ item.name }}</h3>
+
+        <p>Price: {{ item.price }}</p>
+
+        <img src="{{ item.image }}" width="150">
+    </div>
+
+{% endfor %}
+
+</body>
+</html>
