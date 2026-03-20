@@ -26,8 +26,7 @@ class Item(db.Model):
     
 
 with app.app_context():
-    if not os.path.exists("items.db"):
-        db.create_all()
+    db.create_all()
 
 # home page
 @app.route("/")
