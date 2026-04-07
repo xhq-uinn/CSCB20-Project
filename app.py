@@ -5,41 +5,48 @@ import json
 import sqlite3
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = "yes-this-is-a-secret"
 
-app.secret_key = "<KEY>"
-
-
-# index page 
-@app.route("/", methods=['GET', 'POST'])
-def index():
-    conn = sqlite3.connect("instance/items.db")
+# initialize: items(id(PK), name, category, price, image,
+# product_specification, condition, update_timestamp, likes)
+def init_db():
+    conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM item WHERE category = ? LIMIT 6", ("Pens & Stationery",))
-    need_row = cursor.fetchall()
-
-    cursor.execute("SELECT * FROM item WHERE price < 100 AND category != 'clothing' LIMIT 6")
-    feature_row = cursor.fetchall()
-   
-    cursor.close()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            category TEXT,
+            price INTEGER,
+            image TEXT,
+            product_specification TEXT,
+            condition TEXT,
+            update_timestamp TEXT,
+            likes INTEGER DEFAULT 0
+        )
+        """
+    )
+    conn.commit()
     conn.close()
 
-    return render_template("index.html", need_items=need_row, feature_items=feature_row)
+init_db()
+
+@app.before_first_request
+def load_data():
+    import import_data
 
 
 # home page
-@app.route("/home")
+# take 2o items, pass them to HTML
+@app.route("/")
 def home():
-    conn = sqlite3.connect("instance/items.db")
+    conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM item LIMIT 100")
-    items = cursor.fetchall()  
-
-    cursor.close()
+    items_20 = cursor.execute("SELECT * FROM items LIMIT 20").fetchall()
     conn.close()
+    return render_template("home.html", items=items_20)
 
-    return render_template("home.html", items=items)
 
 
 # Category Page
@@ -68,48 +75,60 @@ def sell():
 
 
 # item detail page
-# @app.route("/item//<int:item_id>")  
-# def item(item_id):
-#     item = Item.query.get(item_id) #query db using item_id
- 
-#     # change product_specifications collumn to json form
-#     if item.product_specification:
-#         try:
-#             #fix incorrect json
-#             fixed = item.product_specification.replace("=>", ":")
-
-#             #change to python dictionary
-#             data = json.loads(fixed)
-
-#             #take list
-#             item.product_specification = data.get("product_specification", [])
-
-#         except:
-#             item.product_specification = []
-            
-#     return render_template("item.html", items=item) #pass item to html
-
-
-@app.route("/item", methods=['POST'])
-def item():
-    conn = sqlite3.connect("instance/items.db")
+@app.route("/item/<int:item_id>")
+def item(item_id):
+    conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
-
-    item_id=request.form.get("item_id")
-
-    cursor.execute("SELECT * FROM item WHERE id = ?", (item_id,))
-    item = cursor.fetchone()
-
-    cursor.close()
+    item =cursor.execute("SELECT * FROM items WHERE id = ?", (item_id,)).fetchone()
     conn.close()
+
+    # 怎么处理item DNE？还没写完
+    if item is None:
+        return "Item not found"
 
     return render_template("item.html", item=item)
 
 
 # search and filter page
-@app.route("/filter")
-def filter():
-    return render_template("filter.html")
+@app.route("/filter", methods=["GET"])
+def filter_page():
+    category = request.args.get("category")
+    keyword = request.args.get("keyword")
+    min_price = request.args.get("min_price")
+    max_price = request.args.get("max_price")
+    condition = request.args.get("condition")
+
+    conn = sqlite3.connect("items.db")
+    cursor = conn.cursor()
+
+    query = "SELECT * FROM items WHERE 1=1"
+    params = []
+
+    if category:
+        query += " AND category = ?"
+        params.append(category)
+
+    if keyword:
+        query += " AND name LIKE ?"
+        params.append(f"%{keyword}%")
+
+    if max_price:
+        query += " AND price <= ?"
+        params.append(max_price)
+
+    if min_price:
+        query += " AND price >= ?"
+        params.append(min_price)
+
+    if condition:
+        query += " AND condition = ?"
+        params.append(condition)
+
+    items = cursor.execute(query, params).fetchall()
+
+    conn.close()
+
+    return render_template("filter.html", items=items)
 
 if __name__ == "__main__":
     app.run(debug=True)

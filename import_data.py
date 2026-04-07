@@ -1,6 +1,6 @@
 # In this file we:
-# import items data (in csv) from flipkart.com
-# do data cleaning
+# import fake items from external csv
+# conduct data cleaning
 
 import pandas as pd
 import random
@@ -8,14 +8,38 @@ import math
 import ast
 import json
 from datetime import datetime, timedelta
+import os
+import sqlite3
 
-from app import app, db, Item
 
 
-#read original csv file
+
+def init_db():
+    conn = sqlite3.connect("items.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            category TEXT,
+            price INTEGER,
+            image TEXT,
+            product_specification TEXT,
+            condition TEXT,
+            update_timestamp TEXT,
+            likes INTEGER DEFAULT 0
+        )
+        """
+    )
+    conn.commit()
+    conn.close()
+
+
+# read original csv file
 df = pd.read_csv("data/flipkart_com-ecommerce_sample.csv") 
 
-#delete unwanted columns
+# delete unwanted columns
 columns_to_drop = [
     "uniq_id",
     "crawl_timestamp",
@@ -31,8 +55,8 @@ columns_to_drop = [
 df = df.drop(columns=columns_to_drop, errors="ignore")
 
 
-#change category tree to the first category in the tree
-#and delete niche category (item # <=2)
+# change category tree to the first category in the tree
+# and delete niche category (item # <=2)
 def get_main_category(category_str):
     if pd.isna(category_str):
         return None
@@ -72,34 +96,33 @@ def get_first_valid_image(image_str):
         return ""
 
     try:
-        image_list = ast.literal_eval(image_str) #turn string to python list
+        image_list = ast.literal_eval(image_str)
 
         if isinstance(image_list, list):
             for img in image_list:
-                #img is string and not empty after deleting blank
-                if isinstance(img, str) and img.strip(): 
+                if isinstance(img, str) and img.strip():
                     return img.strip()
 
         return ""
     except Exception as e:
         print("JSON ERROR:", e)
-        item.product_specification = []
+        return ""
 
 df["image_url"] = df["image"].apply(get_first_valid_image)
 
 
-#add new column: condition(random)
+# add new column: condition(random)
 conditions = [
-    "Brand New",
-    "Like New",
-    "Minor Scratches or Stains",
-    "Visible Scratches or Stains",
-    "Poor Condition"
+    "New",
+    "Excellent",
+    "Minor Wear",
+    "Fair",
+    "Heavily Used",
 ]
 df["condition"] = [random.choice(conditions) for _ in range(len(df))]
 
 
-#add new column: update_timestamp(random)
+# add new column: update_timestamp(random)
 end_time = datetime(2026, 4, 1, 23, 59, 59)
 start_time = end_time - timedelta(days=365)
 
@@ -114,41 +137,46 @@ df["update_timestamp"] = [
 ]
 
 
-#add new column: likes(initial value 0)
+# add new column: likes(initial value 0)
 df["likes"] = 0
 
 
-#deal with empty value
+# deal with empty value
 df["product_name"] = df["product_name"].fillna("Unknown Product")
 df["product_specifications"] = df["product_specifications"].fillna("")
 df["product_category_tree"] = df["product_category_tree"].fillna("Unknown Category")
 
 
+init_db()
 
-with app.app_context():
-    db.session.query(Item).delete()
-    db.session.commit()
+conn = sqlite3.connect("items.db")
 
-    items = []
 
-    for _, row in df.iterrows():
-        item = Item(
-            name=row["product_name"],
-            category=row["category"],
-            price=row["price"],
-            image=row["image_url"],
-            product_specification =row["product_specifications"],
-            condition=row["condition"],
-            update_timestamp=row["update_timestamp"],
-            likes=row["likes"]
-        )
-        items.append(item)
+insert_sql = (
+    "INSERT INTO items (name, category, price, image, product_specification, condition, update_timestamp, likes) "
+    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+)
 
-    db.session.bulk_save_objects(items)
-    db.session.commit()
+params = [
+    (
+        row["product_name"],
+        row["category"],
+        row["price"],
+        row["image_url"],
+        row["product_specifications"],
+        row["condition"],
+        row["update_timestamp"],
+        row["likes"],
+    )
+    for _, row in df.iterrows()
+]
 
-    print("Imported rows:", Item.query.count())
+conn.executemany(insert_sql, params)
+conn.commit()
 
-print("Data cleaning and import finished.")
+count = conn.execute("SELECT COUNT(*) FROM items").fetchone()[0]
+print("Imported rows:", count)
+
+conn.close()
 
 
