@@ -131,4 +131,4 @@ def filter_page():
     return render_template("filter.html", items=items)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

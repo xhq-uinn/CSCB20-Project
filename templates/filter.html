@@ -3,9 +3,29 @@
 </head>
 
 <body>
-    <form method="POST" action="/filter">
-        <!-- category -->
-        <input type="text" name="category" placeholder="Category">
+    <form method="get" action="/filter">
+        <select name="category">
+            
+            <option value="Automotive">Automotive</option>
+            <option value="Baby Care">Baby Care</option>
+            <option value="Bags, Wallets & Belts">Bags, Wallets & Belts</option>
+            <option value="Beauty and Personal Care">Beauty and Personal Care</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Computers">Computers</option>
+            <option value="Footwear">Footwear</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Home Decor & Festive Needs">Home Decor & Festive Needs</option>
+            <option value="Home Furnishing">Home Furnishing</option>
+            <option value="Jewellery">Jewellery</option>
+            <option value="Kitchen & Dining">Kitchen & Dining</option>
+            <option value="Mobiles & Accessories">Mobiles & Accessories</option>
+            <option value="Pens & Stationery">Pens & Stationery</option>
+            <option value="Sports & Fitness">Sports & Fitness</option>
+            <option value="Tools & Hardware">Tools & Hardware</option>
+            <option value="Toys & School Supplies">Toys & School Supplies</option>
+            <option value="Watches">Watches</option>
+
+        </select>
 
         <!-- keyword -->
         <input type="text" name="keyword" placeholder="Search name">
