@@ -113,11 +113,11 @@ df["image_url"] = df["image"].apply(get_first_valid_image)
 
 # add new column: condition(random)
 conditions = [
-    "New",
-    "Excellent",
-    "Minor Wear",
-    "Fair",
-    "Heavily Used",
+    "Brand New",
+    "Like New",
+    "Minor Scratches or Stains",
+    "Visible Scratches or Stains",
+    "Poor Condition",
 ]
 df["condition"] = [random.choice(conditions) for _ in range(len(df))]
 

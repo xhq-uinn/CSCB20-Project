@@ -32,9 +32,9 @@ def init_db():
 
 init_db()
 
-@app.before_first_request
-def load_data():
-    import import_data
+# @app.before_first_request
+# def load_data():
+#     import import_data
 
 
 # home page
@@ -90,7 +90,7 @@ def item(item_id):
 
 
 # search and filter page
-@app.route("/filter", methods=["GET"])
+@app.route("/filter", methods=["GET", "POST"])
 def filter_page():
     category = request.args.get("category")
     keyword = request.args.get("keyword")

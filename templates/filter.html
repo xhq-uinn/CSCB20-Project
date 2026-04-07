@@ -1,4 +1,31 @@
 <head><h1>Filter Page</h1></head>
+
 <body>
-    
+    <form method="get" action="/filter">
+    <!-- category -->
+    <input type="text" name="category" placeholder="Category">
+
+    <!-- keyword -->
+    <input type="text" name="keyword" placeholder="Search name">
+
+    <!-- price -->
+    <input type="number" name="max_price" placeholder="Max price">
+
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
+<h2>Results</h2>
+
+{% for item in items %}
+    <div>
+        <p><b>{{ item[1] }}</b></p>   <!-- name -->
+        <p>Category: {{ item[2] }}</p>
+        <p>Price: {{ item[3] }}</p>
+
+        <a href="/item/{{ item[0] }}">View</a>
+    </div>
+    <hr>
+{% endfor %}
 </body>
