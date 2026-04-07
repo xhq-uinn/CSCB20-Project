@@ -1,0 +1,32 @@
+.product_card {
+    /* border: 1px solid #000000; */
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.product-img-home {
+    border-radius: 20px;
+    margin: 20px;
+
+    width: 160px;
+    height: 200px;
+
+    object-fit: cover;
+    /* 图片不变形 */
+}
+
+.product-grid {
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 20px;
+    /* 每个商品之间的间距 */
+    padding: 20px;
+}
+
+.font {
+    font-size: 16px;
+    font-weight: 300;
+}

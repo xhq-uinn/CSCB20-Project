@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="/static/common.css">
+    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="/static/home.css">
+    <link rel="stylesheet" href="/static/sell.css">
+</head>
+
+<body>
+    <Section class="all-top">
+        <!-- TOP -->
+        <div class="top_layout">
+            <div id="welcome" class="item">
+                Welcome to D&B UTSC Market
+            </div>
+
+            <div id="functions" class="item">
+                <div class="btns" id="sell">Sell</div>
+
+                <div><a href="..."><img src=/static/pictures/cart.png height="25" width="30"></a></div>
+
+                <div><a href="..."><img src=/static/pictures/account.png height="25" width="25"></a></div>
+            </div>
+
+            <div id="search" class="item">
+                <img src="/static/pictures/search_icon.png" height="20" width="20">
+                <input type="text" name="search" value="Search for Anything">
+            </div>
+
+            <div id="other" class="item">
+                <div class="btns" id="login">Log In</div>
+                <div class="btns" id="signup">Sign Up</div>
+            </div>
+        </div>
+
+        <!-- Advertise-banner -->
+        <div class="bottom">
+            <img src="/static/pictures/banner.jpg" class="banner">
+        </div>
+    </Section>
+
+    <!-- Category and OTHER -->
+    <section class="cate_and_OTHER">
+        <!-- Category -->
+        <section id="category" class="cate">
+            <h3>Category</h3>
+
+            <div>
+                <form action="/category" method="POST">
+                    <ul class="cate-list">
+                        <li><button name="category" value="Clothing">Clothing</button></li>
+                        <li><button name="category" value="Pens & Stationery">Pens &
+                                Stationery</button></li>
+                        <li>
+                            <button name="category" value="Home Decor & Festive Needs">
+                                Home Decor & Festive Needs
+                            </button>
+                        </li>
+                        <li><button name="category" value="Furniture">Furniture</button></li>
+                        <li><button name="category" value="Computers">Computers</button></li>
+                        <li><button name="category" value="Sports & Fitness">Sports &
+                                Fitness</button></li>
+                        <li>
+                            <button name="category" value="Beauty and Personal Care">Beauty and
+                                Personal Care</button>
+                        </li>
+                        <li><button name="category" value="Bags, Wallets & Belts">Bags, Wallets &
+                                Belts</button></li>
+                        <li><button name="category" value="Pet Supplies">Pet Supplies</button></li>
+                        <li><button name="category" value="Tools & Hardware">Tools &
+                                Hardware</button></li>
+                        <li><button name="category" value="Jewellery">Jewellery</button></li>
+                        <li><button name="category" value="Gaming">Gaming</button></li>
+                        <li><button name="category" value="eBooks">eBooks</button></li>
+                    </ul>
+                </form>
+            </div>
+        </section>
+        <!-- Additinal content in index or other pages -->
+        <section class="header_and_list">
+            {% block content %}
+            {% endblock %}
+        </section>
+    </section>
+
+    <script src="/static/main.js"></script>
+</body>
+
+</html>

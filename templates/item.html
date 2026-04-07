@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Item Detail</title>
+</head>
+
+<body>
+
+    <h1>{{ item[1] }}</h1>
+
+    <p>Price: {{ item[3] }}</p>
+
+    <p>Category: {{ item[2] }}</p>
+
+    <p>Condition: {{ item[6] }}</p>
+
+    <img src="{{ item[4] }}" width="200">
+
+    <!-- <h2>Specifications</h2>
+
+    {% if item[5] %}
+
+    {% for spec in item.product_specification %}
+    <p>
+        {% if spec.key %}
+        <b>{{ spec.key }}:</b> {{ spec.value }}
+        {% else %}
+        {{ spec.value }}
+        {% endif %}
+    </p>
+    {% endfor %} 
+
+    {% else %}
+    <p>No specifications available.</p>
+    {% endif %} -->
+
+</body>
+
+</html>

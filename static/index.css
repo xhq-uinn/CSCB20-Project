@@ -1,0 +1,39 @@
+.index-list {
+    display: grid;
+    align-items: center;
+
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    border-radius: 20px;
+
+    background-color: beige;
+    width: 100%;
+    height: 250px;
+}
+
+.product-img-index {
+    width: 180px;
+    height: 220px;
+    object-fit: cover;
+    /* 图片不变形 */
+    border-radius: 15px;
+}
+
+.index-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.more {
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.img-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}

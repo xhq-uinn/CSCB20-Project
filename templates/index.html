@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Items You Need -->
+<div class="header_and_list">
+    <div class="index-header" id="may-need">
+        <h2>Items You Need:</h2>
+
+        <div class="more">
+            <a href="..."> More <img src=/static/pictures/arrow.png width="20px" height="15px"></a>
+        </div>
+    </div>
+
+    <div class="index-list">
+        {% for item in need_items %}
+        <form action="/item" method="POST">
+            <input type="hidden" name="item_id" value="{{ item[0] }}">
+
+            <button type="submit" class="img-btn">
+                <img src="{{ item[4] }}" class="product-img-index">
+            </button>
+        </form>
+        {% endfor %}
+    </div>
+
+    <!-- Featured Items -->
+    <div class="index-header" id="features">
+        <h2>Feature Items:</h2>
+
+        <div class="more">
+            <a href="...">More <img src=/static/pictures/arrow.png width="20px" height="15px"></a>
+        </div>
+    </div>
+
+    <div class="index-list">
+        {% for item in feature_items %}
+        <form action="/item" method="POST">
+            <input type="hidden" name="item_id" value="{{ item[0] }}">
+
+            <button type="submit" class="img-btn">
+                <img src="{{ item[4] }}" class="product-img-index">
+            </button>
+        </form>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

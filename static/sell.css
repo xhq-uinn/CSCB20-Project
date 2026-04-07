@@ -1,0 +1,66 @@
+.each {
+    display: flex;
+    margin-bottom: 20px;
+    flex-direction: row;
+}
+
+.header {
+    background-color: rgba(251, 81, 78, 0.822);
+    color: white;
+
+    border-radius: 10px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image {
+    border-style: dotted;
+    border-color: black;
+
+    width: 500px;
+    height: 250px;
+}
+
+.each input {
+    width: 200px;
+    height: 40px;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+.each select {
+    width: 200px;
+    height: 40px;
+    margin-left: 20px;
+}
+
+.delivery {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.delivery label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+.btn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sell-btn {
+    background-color: rgba(251, 81, 78, 0.822);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+}
