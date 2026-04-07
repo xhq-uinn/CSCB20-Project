@@ -78,7 +78,7 @@ def get_main_category(category_str):
 df["category"] = df["product_category_tree"].apply(get_main_category)
 
 category_counts = df["category"].value_counts()
-valid_categories = category_counts[category_counts >= 3].index
+valid_categories = category_counts[category_counts >= 100].index
 df = df[df["category"].isin(valid_categories)]
 
 

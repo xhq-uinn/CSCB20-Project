@@ -54,30 +54,40 @@
             <div>
                 <form action="/category" method="POST">
                     <ul class="cate-list">
-                        <li><button name="category" value="Clothing">Clothing</button></li>
-                        <li><button name="category" value="Pens & Stationery">Pens &
-                                Stationery</button></li>
-                        <li>
-                            <button name="category" value="Home Decor & Festive Needs">
-                                Home Decor & Festive Needs
-                            </button>
-                        </li>
-                        <li><button name="category" value="Furniture">Furniture</button></li>
-                        <li><button name="category" value="Computers">Computers</button></li>
-                        <li><button name="category" value="Sports & Fitness">Sports &
-                                Fitness</button></li>
-                        <li>
-                            <button name="category" value="Beauty and Personal Care">Beauty and
-                                Personal Care</button>
-                        </li>
-                        <li><button name="category" value="Bags, Wallets & Belts">Bags, Wallets &
-                                Belts</button></li>
-                        <li><button name="category" value="Pet Supplies">Pet Supplies</button></li>
-                        <li><button name="category" value="Tools & Hardware">Tools &
-                                Hardware</button></li>
-                        <li><button name="category" value="Jewellery">Jewellery</button></li>
-                        <li><button name="category" value="Gaming">Gaming</button></li>
-                        <li><button name="category" value="eBooks">eBooks</button></li>
+                        <li><a href="{{ url_for('filter_page', category='Automotive') }}">Automotive</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Baby Care') }}">Baby Care</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Bags, Wallets & Belts') }}">Bags, Wallets & Belts</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Beauty and Personal Care') }}">Beauty and Personal Care</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Clothing') }}">Clothing</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Footwear') }}">Footwear</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Furniture') }}">Furniture</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Home Decor & Festive Needs') }}">Home Decor & Festive Needs</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Home Furnishing') }}">Home Furnishing</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Jewellery') }}">Jewellery</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Kitchen & Dining') }}">Kitchen & Dining</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Mobiles & Accessories') }}">Mobiles & Accessories</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Pens & Stationery') }}">Pens & Stationery</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Sports & Fitness') }}">Sports & Fitness</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Tools & Hardware') }}">Tools & Hardware</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Toys & School Supplies') }}">Toys & School Supplies</a></li>
+
+                        <li><a href="{{ url_for('filter_page', category='Watches') }}">Watches</a></li>
+                        
                     </ul>
                 </form>
             </div>
