@@ -1,23 +1,22 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Item Detail</title>
-</head>
+{% block content %}
 
-<body>
+<h1>{{ item[1] }}</h1>
 
-    <h1>{{ item[1] }}</h1>
+<p>Price: {{ item[3] }}</p>
 
+<<<<<<< HEAD
     <p>Price: ${{ item[3] }}</p>
+=======
+<p>Category: {{ item[2] }}</p>
+>>>>>>> 6b811d9 (update item detail page)
 
-    <p>Category: {{ item[2] }}</p>
+<p>Condition: {{ item[6] }}</p>
 
-    <p>Condition: {{ item[6] }}</p>
+<img src="{{ item[4] }}" width="500px">
 
-    <img src="{{ item[4] }}" width="200">
-
-    <!-- <h2>Specifications</h2>
+<!-- <h2>Specifications</h2>
 
     {% if item[5] %}
 
@@ -35,6 +34,4 @@
     <p>No specifications available.</p>
     {% endif %} -->
 
-</body>
-
-</html>
+{% endblock %}

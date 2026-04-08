@@ -92,11 +92,11 @@ def item(item_id):
 # search and filter page
 @app.route("/filter", methods=["GET", "POST"])
 def filter_page():
-    category = request.args.get("category")
-    keyword = request.args.get("keyword")
-    min_price = request.args.get("min_price")
-    max_price = request.args.get("max_price")
-    condition = request.args.get("condition")
+    category = request.form.get("category")
+    keyword = request.form.get("keyword")
+    min_price = request.form.get("min_price")
+    max_price = request.form.get("max_price")
+    condition = request.form.get("condition")
 
     conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
@@ -105,11 +105,11 @@ def filter_page():
     params = []
 
     if category:
-        query += " AND category = ?"
+        query += " AND LOWER(category) = LOWER(?)"
         params.append(category)
 
     if keyword:
-        query += " AND name LIKE ?"
+        query += " AND LOWER(name) LIKE LOWER(?)"
         params.append(f"%{keyword}%")
 
     if max_price:
