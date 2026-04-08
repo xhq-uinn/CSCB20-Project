@@ -199,9 +199,10 @@ def signup():
                         (username, email, password)
                         )
             conn.commit()
+            conn.close()
         except:
             return("Email already exists")
-        conn.close()
+        
 
         return redirect("/login")
     return render_template("signup.html")
@@ -226,6 +227,11 @@ def login():
             return "Login failed"
         
     return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop("uid", None)
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run()
