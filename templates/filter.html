@@ -1,38 +1,38 @@
-<head>
-    <h1>Filter Page</h1>
-    <link rel="stylesheet" href="{{ url_for('static', filename='general_pg_image.css') }}">
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block content %}
+
+<h1> {{ category }} </h1>
+
 <form method="get" action="/filter">
 
     <!-- keyword -->
     <input type="text" name="keyword" placeholder="Enter the keyword">
 
     <!-- category -->
-        <select name="category">
-            <option value="" disabled selected>Category</option>
+    <select name="category">
+        <option value="" disabled selected>Category</option>
 
-            <option value="Automotive">Automotive</option>
-            <option value="Baby Care">Baby Care</option>
-            <option value="Bags, Wallets & Belts">Bags, Wallets & Belts</option>
-            <option value="Beauty and Personal Care">Beauty and Personal Care</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Computers">Computers</option>
-            <option value="Footwear">Footwear</option>
-            <option value="Furniture">Furniture</option>
-            <option value="Home Decor & Festive Needs">Home Decor & Festive Needs</option>
-            <option value="Home Furnishing">Home Furnishing</option>
-            <option value="Jewellery">Jewellery</option>
-            <option value="Kitchen & Dining">Kitchen & Dining</option>
-            <option value="Mobiles & Accessories">Mobiles & Accessories</option>
-            <option value="Pens & Stationery">Pens & Stationery</option>
-            <option value="Sports & Fitness">Sports & Fitness</option>
-            <option value="Tools & Hardware">Tools & Hardware</option>
-            <option value="Toys & School Supplies">Toys & School Supplies</option>
-            <option value="Watches">Watches</option>
+        <option value="Automotive">Automotive</option>
+        <option value="Baby Care">Baby Care</option>
+        <option value="Bags, Wallets & Belts">Bags, Wallets & Belts</option>
+        <option value="Beauty and Personal Care">Beauty and Personal Care</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Computers">Computers</option>
+        <option value="Footwear">Footwear</option>
+        <option value="Furniture">Furniture</option>
+        <option value="Home Decor & Festive Needs">Home Decor & Festive Needs</option>
+        <option value="Home Furnishing">Home Furnishing</option>
+        <option value="Jewellery">Jewellery</option>
+        <option value="Kitchen & Dining">Kitchen & Dining</option>
+        <option value="Mobiles & Accessories">Mobiles & Accessories</option>
+        <option value="Pens & Stationery">Pens & Stationery</option>
+        <option value="Sports & Fitness">Sports & Fitness</option>
+        <option value="Tools & Hardware">Tools & Hardware</option>
+        <option value="Toys & School Supplies">Toys & School Supplies</option>
+        <option value="Watches">Watches</option>
 
-        </select>
+    </select>
 
     <!-- squence-->
     <select name="sequence">
@@ -42,7 +42,7 @@
         <option value="LikesH2L">Most Liked</option>
         <option value="MostRecent">Recently Posted</option>
     </select>
-    
+
     <!-- min price -->
     <input type="number" name="min_price" placeholder="Min price">
 
@@ -71,7 +71,7 @@
         <input type="checkbox" name="condition" value="Visible Scratches or Stains">
         Visible Scratches or Stains
     </label><br>
-    
+
     <label>
         <input type="checkbox" name="condition" value="Poor Condition">
         Poor Condition
@@ -81,21 +81,24 @@
 
 </form>
 
+<hr>
 
-    <hr>
+<h2>Results</h2>
 
-    <h2>Results</h2>
-
+<div class="product-grid">
     {% for item in items %}
-    <div>
+    <div class="product_card">
+
         <a href="/item/{{ item[0] }}">
-            <p><b>{{ item[1] }}</b></p>   <!-- name -->
-            <p>Category: {{ item[2] }}</p>
-            <p>Price: ${{ item[3] }}</p>
             <img src="{{ item[4] }}" class="product-img-index">
         </a>
-    </div>
-    <hr>
-{% endfor %}
 
-</body>
+        <h3>{{ item[1] }}</h3>
+
+        <p class="font">Price: ${{ item[3] }}</p>
+
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

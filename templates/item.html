@@ -5,7 +5,7 @@
 <h1>{{ item[1] }}</h1>
 
 <p>Price: ${{ item[3] }}</p>
-    
+
 <p>Category: {{ item[2] }}</p>
 
 <p>Condition: {{ item[6] }}</p>
@@ -14,20 +14,28 @@
 
 <h2>Specifications</h2>
 
-    {% if item[5] %}
+{% if item[5] %}
 
-    {% for spec in item.product_specification %}
-    <p>
-        {% if spec.key %}
-        <b>{{ spec.key }}:</b> {{ spec.value }}
-        {% else %}
-        {{ spec.value }}
-        {% endif %}
-    </p>
-    {% endfor %} 
-
+{% for spec in item.product_specification %}
+<p>
+    {% if spec.key %}
+    <b>{{ spec.key }}:</b> {{ spec.value }}
     {% else %}
-    <p>No specifications available.</p>
-    {% endif %} 
+    {{ spec.value }}
+    {% endif %}
+</p>
+{% endfor %}
+
+{% else %}
+<p>No specifications available.</p>
+{% endif %}
+
+<div class="btn">
+    <button class="sell-btn" id="like" type="submit">LIKE</button>
+</div>
+
+<div class="btn">
+    <button class="sell-btn" id="buy" type="submit">BUY</button>
+</div>
 
 {% endblock %}

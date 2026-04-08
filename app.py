@@ -136,15 +136,23 @@ def item(item_id):
 
 
 # search and filter page
-@app.route("/filter", methods=["GET", "POST"])
+@app.route("/filter", methods=["POST", "GET"])
 def filter_page():
+    if request.method == "POST":
     # get the user filter arguments
-    category = request.args.get("category")
-    keyword = request.args.get("keyword")
-    min_price = request.args.get("min_price")
-    max_price = request.args.get("max_price")
-    conditions = request.args.getlist("condition")
-    sequence = request.args.get("sequence")
+        category = request.form.get("category")
+        keyword = request.form.get("keyword")
+        min_price = request.form.get("min_price")
+        max_price = request.form.get("max_price")
+        conditions = request.form.getlist("condition")
+        sequence = request.form.get("sequence")
+    else:
+        category = request.args.get("category")
+        keyword = request.args.get("keyword")
+        min_price = request.args.get("min_price")
+        max_price = request.args.get("max_price")
+        conditions = request.args.getlist("condition")
+        sequence = request.args.get("sequence")
 
     conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
@@ -195,7 +203,7 @@ def filter_page():
     conn.close()
 
     #return filtered items to html
-    return render_template("filter.html", items=items)
+    return render_template("filter.html", items=items, category=category)
 
 
 @app.route("/signup", methods=["GET", "POST"])
