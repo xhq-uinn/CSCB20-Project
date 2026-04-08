@@ -9,12 +9,12 @@ sellbtn.addEventListener("click", function () {
     window.location.href = "/sell";
 });
 
-const logInBtn = document.getElementByID("login");
+const logInBtn = document.getElementById("login");
 logInBtn.addEventListener("click", function(){
     window.location.href = "/login";
 });
 
-const signUpBtn = document.getElementByID("signup")
+const signUpBtn = document.getElementById("signup")
 signUpBtn.addEventListener("click", function(){
     window.location.href = "/signup";
 });
