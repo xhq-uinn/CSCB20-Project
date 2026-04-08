@@ -38,7 +38,7 @@ init_db()
 
 
 # home page
-# take 2o items, pass them to HTML
+# take 20 items, pass them to HTML
 @app.route("/")
 def home():
     conn = sqlite3.connect("items.db")
@@ -46,6 +46,18 @@ def home():
     items_20 = cursor.execute("SELECT * FROM items LIMIT 20").fetchall()
     conn.close()
     return render_template("home.html", items=items_20)
+
+@app.route("/")
+def big_search_bar():
+    conn = sqlite3.connect("items.db")
+    cursor = conn.cursor()
+    keyword = request.form.get("keyword")
+    cursor.execute("SELECT * FROM item WHERE name = ?", (keyword,))
+    items = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+    return render_template("filter.html", items = items)
 
 
 
@@ -57,8 +69,7 @@ def category():
 
     category = request.form.get("category")
 
-    query = "SELECT * FROM item WHERE category = ?"
-    cursor.execute(query, (category,))
+    cursor.execute("SELECT * FROM item WHERE category = ?", (category,))
     
     items = cursor.fetchall()
     
@@ -92,11 +103,12 @@ def item(item_id):
 # search and filter page
 @app.route("/filter", methods=["GET", "POST"])
 def filter_page():
-    category = request.form.get("category")
-    keyword = request.form.get("keyword")
-    min_price = request.form.get("min_price")
-    max_price = request.form.get("max_price")
-    condition = request.form.get("condition")
+    # get the user filter arguments
+    category = request.args.get("category")
+    keyword = request.args.get("keyword")
+    min_price = request.args.get("min_price")
+    max_price = request.args.get("max_price")
+    conditions = request.args.getlist("condition")
 
     conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
@@ -120,15 +132,17 @@ def filter_page():
         query += " AND price >= ?"
         params.append(min_price)
 
-    if condition:
-        query += " AND condition = ?"
-        params.append(condition)
+    if conditions:
+        query += " AND condition IN ({})".format(",".join(["?"] * len(conditions)))
+        params.extend(conditions)
 
+    # execute query
     items = cursor.execute(query, params).fetchall()
 
     conn.close()
 
+    #return filtered items to html
     return render_template("filter.html", items=items)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

@@ -1,11 +1,16 @@
 <head>
     <h1>Filter Page</h1>
+    <link rel="stylesheet" href="{{ url_for('static', filename='general_pg_image.css') }}">
 </head>
 
 <body>
-    <form method="get" action="/filter">
+<form method="get" action="/filter">
+
+    <!-- keyword -->
+    <input type="text" name="keyword" placeholder="Enter the keyword">
+
         <select name="category">
-            
+
             <option value="Automotive">Automotive</option>
             <option value="Baby Care">Baby Care</option>
             <option value="Bags, Wallets & Belts">Bags, Wallets & Belts</option>
@@ -27,11 +32,41 @@
 
         </select>
 
-        <!-- keyword -->
-        <input type="text" name="keyword" placeholder="Search name">
 
-        <!-- price -->
-        <input type="number" name="max_price" placeholder="Max price">
+
+    <!-- min price -->
+    <input type="number" name="min_price" placeholder="Min price">
+
+    <!-- max price -->
+    <input type="number" name="max_price" placeholder="Max price">
+
+    <!-- condition -->
+    <p>Condition:</p>
+
+    <label>
+        <input type="checkbox" name="condition" value="Brand New">
+        Brand New
+    </label><br>
+
+    <label>
+        <input type="checkbox" name="condition" value="Like New">
+        Like New
+    </label><br>
+
+    <label>
+        <input type="checkbox" name="condition" value="Minor Scratches or Stains">
+        Minor Scratches or Stain
+    </label><br>
+
+    <label>
+        <input type="checkbox" name="condition" value="Minor Scratches or Stains">
+        Visible Scratches or Stains
+    </label><br>
+    
+    <label>
+        <input type="checkbox" name="condition" value="Poor Condition">
+        Poor Condition
+    </label><br>
 
         <button type="submit">Search</button>
     </form>
@@ -42,12 +77,14 @@
 
     {% for item in items %}
     <div>
-        <p><b>{{ item[1] }}</b></p> <!-- name -->
-        <p>Category: {{ item[2] }}</p>
-        <p>Price: {{ item[3] }}</p>
-
-        <a href="/item/{{ item[0] }}">View</a>
+        <a href="/item/{{ item[0] }}">
+            <p><b>{{ item[1] }}</b></p>   <!-- name -->
+            <p>Category: {{ item[2] }}</p>
+            <p>Price: ${{ item[3] }}</p>
+            <img src="{{ item[4] }}" class="product-img-index">
+        </a>
     </div>
     <hr>
-    {% endfor %}
+{% endfor %}
+
 </body>

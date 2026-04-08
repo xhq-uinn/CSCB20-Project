@@ -30,7 +30,9 @@
 
             <div id="search" class="item">
                 <img src="/static/pictures/search_icon.png" height="20" width="20">
-                <input type="text" name="search" placeholder="Search for Anything">
+                <form method="get" action="/filter"> 
+                    <input type="text" name="keyword" placeholder="Search for Anything">
+                </form>
             </div>
 
             <div id="other" class="item">
