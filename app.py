@@ -109,6 +109,7 @@ def filter_page():
     min_price = request.args.get("min_price")
     max_price = request.args.get("max_price")
     conditions = request.args.getlist("condition")
+    sequence = request.args.get("sequence")
 
     conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
@@ -135,6 +136,8 @@ def filter_page():
     if conditions:
         query += " AND condition IN ({})".format(",".join(["?"] * len(conditions)))
         params.extend(conditions)
+    
+
 
     # execute query
     items = cursor.execute(query, params).fetchall()

@@ -9,6 +9,7 @@
     <!-- keyword -->
     <input type="text" name="keyword" placeholder="Enter the keyword">
 
+    <!-- category -->
         <select name="category">
 
             <option value="Automotive">Automotive</option>
@@ -32,8 +33,14 @@
 
         </select>
 
-
-
+    <!-- squence-->
+    <select name="sequence">
+        <option value="PriceL2H">Price Low to High</option>
+        <option value="PriceH2L">Price Hight to Low</option>
+        <option value="LikesH2L">Most Liked</option>
+        <option value="MostRecent">Recently Posted</option>
+    </select>
+    
     <!-- min price -->
     <input type="number" name="min_price" placeholder="Min price">
 
@@ -70,6 +77,9 @@
 
         <button type="submit">Search</button>
     </form>
+    <button type="submit">Search</button>
+
+</form>
 
     <hr>
 
