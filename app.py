@@ -32,6 +32,7 @@ def init_db():
         """
         CREATE TABLE IF NOT EXISTS users (
             uid INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT
             email TEXT UNIQUE,
             password TEXT
         )
