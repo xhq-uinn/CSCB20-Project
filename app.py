@@ -137,6 +137,17 @@ def filter_page():
         query += " AND condition IN ({})".format(",".join(["?"] * len(conditions)))
         params.extend(conditions)
     
+    if sequence == "PriceL2H":
+        query += "ORDER BY price ASC"
+    
+    if sequence == "PriceH2L":
+        query += "ORDER BY price DESC"
+        
+    if sequence == "LikeH2L":
+        query += "ORDER BY like ASC"
+
+    if sequence == "MostRecent":
+        query += "ORDER BY update_timestamp DESC"
 
 
     # execute query
