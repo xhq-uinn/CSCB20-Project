@@ -126,13 +126,25 @@ def item(item_id):
     conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
     item =cursor.execute("SELECT * FROM items WHERE id = ?", (item_id,)).fetchone()
-    conn.close()
 
     # 怎么处理item DNE？还没写完
     if item is None:
         return "Item not found"
+    
+    if "uid" in session:
+        uid = session["uid"]
 
+        user = cursor.execute("SELECT * FROM users WHERE uid=?", (uid,)).fetchone()
+        username = user[1]
+
+        conn.close()
+
+        return render_template("item.html", item=item, username=username)
+    
+
+    conn.close()
     return render_template("item.html", item=item)
+
 
 
 # search and filter page
