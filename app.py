@@ -175,8 +175,9 @@ def filter_page():
     # execute query
     items = cursor.execute(query, params).fetchall()
     
-    if not items:  # fetchall() return [], items will never be None
-        return("No items found")
+    # if not items:  # fetchall() return [], items will never be None
+    #     return("No items found")
+    # HTML里处理items为空
     
     conn.close()
 
@@ -193,14 +194,17 @@ def signup():
 
         conn = sqlite3.connect("items.db")
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-                    (username, email, password)
-                    )
-        conn.commit()
+        try:
+            cursor.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+                        (username, email, password)
+                        )
+            conn.commit()
+        except:
+            return("Email already exists")
         conn.close()
 
         return redirect("/login")
-    return render_template("/signup")
+    return render_template("signup.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -219,7 +223,7 @@ def login():
             session["uid"] = user[0]
             return redirect("/")
         else:
-            return "Login failed, user does not exist"
+            return "Login failed"
         
     return render_template("login.html")
 
