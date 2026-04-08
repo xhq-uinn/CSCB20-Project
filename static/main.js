@@ -19,9 +19,9 @@ signUpBtn.addEventListener("click", function(){
     window.location.href = "/signup";
 });
 
-const logOutBtn = document.getElementById("logout")
-if(logOutBtn){  //necessary bc if user not logged in, logOutBtn is None, will error
-    logOutBtn.addEventListener("click", function(){
-    window.location.href = "/logout";
-});
-}
+// const logOutBtn = document.getElementById("logout")
+// if(logOutBtn){  //necessary bc if user not logged in, logOutBtn is None, will error
+//     logOutBtn.addEventListener("click", function(){
+//     window.location.href = "/logout";
+// });
+// }

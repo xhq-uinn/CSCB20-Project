@@ -21,7 +21,7 @@
                     Welcome to D&B UTSC Market
                 {% else %}
                     Welcome, {{username}}!
-                {% end if %}
+                {% endif %}
             </div>
 
             <div id="functions" class="item">
@@ -44,8 +44,8 @@
                     <div class="btns" id="login">Log In</div>
                     <div class="btns" id="signup">Sign Up</div>
                 {% else %}
-                    <div class="btns" id="logout">Log Out</div>
-                {% end if %}
+                    <a href="/logout" class="btns">Log Out</a>
+                {% endif %}
             </div>
         </div>
 
