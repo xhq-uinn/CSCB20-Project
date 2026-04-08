@@ -12,7 +12,7 @@ app.config['SECRET_KEY'] = "yes-this-is-a-secret"
 def init_db():
     conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
-    cursor.execute(
+    cursor.execute( #items table
         """
         CREATE TABLE IF NOT EXISTS items (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,6 +26,40 @@ def init_db():
             likes INTEGER DEFAULT 0
         )
         """
+    )
+
+    cursor.execute( # users table
+        """
+        CREATE TABLE IF NOT EXISTS users (
+            uid INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT UNIQUE,
+            password TEXT
+        )
+        """
+    )
+    cursor.execute( # likes table
+        """
+        CREATE TABLE IF NOT EXISTS likes (
+            uid INTEGER,
+            iid INTEGER,
+            PRIMARY KEY (uid, iid),
+            FOREIGN KEY (uid) REFERENCES users(uid),
+            FOREIGN KEY (iid) REFERENCES items(id)
+        )
+        """
+    )
+    cursor.execute( #orders table
+        """
+        CREATE TABLE IF NOT EXISTS orders (
+            oid INTEGER PRIMARY KEY AUTOINCREMENT,
+            uid INTEGER,
+            iid INTEGER,
+            timestamp TEXT,
+            FOREIGN KEY (uid) REFERENCES users(uid),
+            FOREIGN KEY (iid) REFERENCES items(id)
+        )
+        """
+
     )
     conn.commit()
     conn.close()
@@ -46,9 +80,6 @@ def home():
     items_20 = cursor.execute("SELECT * FROM items LIMIT 20").fetchall()
     conn.close()
     return render_template("home.html", items=items_20)
-
-
-
 
 
 # Category Page
@@ -150,6 +181,23 @@ def filter_page():
 
     #return filtered items to html
     return render_template("filter.html", items=items)
+
+
+@app.route("/signup", method=["GET", "POST"])
+def signup():
+    email = request.form.get("username")
+    password = request.form.get("password")
+    conn = sqlite3.connect("items.db")
+    cursor = conn.cursor()
+    cursor.exec("") #sql怎么写
+    cursor.commit()
+    conn.close()
+
+@app.route("login", method=["GET", "POST"])
+def login():
+    email = request.form.get("username")
+    password = request.form.get("password")
+
 
 if __name__ == "__main__":
     app.run()
