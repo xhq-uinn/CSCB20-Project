@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from datetime import datetime
 import os
 import json
@@ -32,7 +32,7 @@ def init_db():
         """
         CREATE TABLE IF NOT EXISTS users (
             uid INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT
+            username TEXT,
             email TEXT UNIQUE,
             password TEXT
         )
@@ -166,7 +166,7 @@ def filter_page():
         query += " ORDER BY price DESC"
         
     if sequence == "LikesH2L":
-        query += " ORDER BY likes ASC"
+        query += " ORDER BY likes DESC"
 
     if sequence == "MostRecent":
         query += " ORDER BY update_timestamp DESC"
@@ -184,22 +184,44 @@ def filter_page():
     return render_template("filter.html", items=items)
 
 
-@app.route("/signup", method=["GET", "POST"])
+@app.route("/signup", methods=["GET", "POST"])
 def signup():
-    username = request.form.get("username")
-    email = request.form.get("email")
-    password = request.form.get("password")
-    conn = sqlite3.connect("items.db")
-    cursor = conn.cursor()
-    cursor.exec("") #sql怎么写
-    cursor.commit()
-    conn.close()
+    if request.method == "POST":
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
 
-@app.route("login", method=["GET", "POST"])
+        conn = sqlite3.connect("items.db")
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+                    (username, email, password)
+                    )
+        conn.commit()
+        conn.close()
+
+        return redirect("/login")
+    return render_template("/signup")
+
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    email = request.form.get("username")
-    password = request.form.get("password")
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
 
+        conn = sqlite3.connect("items.db")
+        cursor = conn.cursor()
+        user = cursor.execute("SELECT * FROM users WHERE email = ? AND password = ?",
+                       (email, password)
+                       ).fetchone() # fetchone bc either shown as None or a row
+        conn.close()
+        if user:
+            session["uid"] = user[0]
+            return redirect("/")
+        else:
+            return "Login failed, user does not exist"
+        
+    return render_template("login.html")
 
 if __name__ == "__main__":
     app.run()
