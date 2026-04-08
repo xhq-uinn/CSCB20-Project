@@ -11,10 +11,10 @@ sellbtn.addEventListener("click", function () {
 
 const logInBtn = document.getElementByID("login");
 logInBtn.addEventListener("click", function(){
-    window.location.href = "/login"
+    window.location.href = "/login";
 });
 
 const signUpBtn = document.getElementByID("signup")
 signUpBtn.addEventListener("click", function(){
-    window.location.href = "/signup"
+    window.location.href = "/signup";
 });
