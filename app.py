@@ -186,7 +186,8 @@ def filter_page():
 
 @app.route("/signup", method=["GET", "POST"])
 def signup():
-    email = request.form.get("username")
+    username = request.form.get("username")
+    email = request.form.get("email")
     password = request.form.get("password")
     conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
