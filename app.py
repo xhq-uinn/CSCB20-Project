@@ -80,6 +80,19 @@ def home():
     cursor = conn.cursor()
     items_20 = cursor.execute("SELECT * FROM items LIMIT 20").fetchall()
     conn.close()
+
+    if "uid" in session:
+        uid = session["uid"]
+
+        conn = sqlite3.connect("items.db")
+        cursor = conn.cursor()
+        user = cursor.execute("SELECT * FROM users WHERE uid=?", (uid,)).fetchone()
+        username = user[1]
+
+        conn.close()
+
+        return render_template("home.html", items=items_20, username=username)
+    
     return render_template("home.html", items=items_20)
 
 

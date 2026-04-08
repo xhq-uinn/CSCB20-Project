@@ -17,7 +17,11 @@
         <!-- TOP -->
         <div class="top_layout">
             <div id="welcome" class="item">
-                Welcome to D&B UTSC Market
+                {% if not (session.get("uid") and username)%}
+                    Welcome to D&B UTSC Market
+                {% else %}
+                    Welcome, {{username}}!
+                {% end if %}
             </div>
 
             <div id="functions" class="item">
@@ -36,8 +40,12 @@
             </div>
 
             <div id="other" class="item">
-                <div class="btns" id="login">Log In</div>
-                <div class="btns" id="signup">Sign Up</div>
+                {% if not session.get("uid") %}
+                    <div class="btns" id="login">Log In</div>
+                    <div class="btns" id="signup">Sign Up</div>
+                {% else %}
+                    <div class="btns" id="logout">Log Out</div>
+                {% end if %}
             </div>
         </div>
 
