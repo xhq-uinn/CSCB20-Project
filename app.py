@@ -47,29 +47,19 @@ def home():
     conn.close()
     return render_template("home.html", items=items_20)
 
-@app.route("/")
-def big_search_bar():
-    conn = sqlite3.connect("items.db")
-    cursor = conn.cursor()
-    keyword = request.form.get("keyword")
-    cursor.execute("SELECT * FROM item WHERE name = ?", (keyword,))
-    items = cursor.fetchall()
 
-    cursor.close()
-    conn.close()
-    return render_template("filter.html", items = items)
 
 
 
 # Category Page
 @app.route("/category", methods=["POST"])
 def category():
-    conn = sqlite3.connect("instance/items.db")
+    conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
 
     category = request.form.get("category")
 
-    cursor.execute("SELECT * FROM item WHERE category = ?", (category,))
+    cursor.execute("SELECT * FROM items WHERE category = ?", (category,))
     
     items = cursor.fetchall()
     
@@ -118,11 +108,11 @@ def filter_page():
     params = []
 
     if category:
-        query += " AND LOWER(category) = LOWER(?)"
+        query += " AND category = ?"
         params.append(category)
 
     if keyword:
-        query += " AND LOWER(name) LIKE LOWER(?)"
+        query += " AND name LIKE ?"
         params.append(f"%{keyword}%")
 
     if max_price:
@@ -138,25 +128,28 @@ def filter_page():
         params.extend(conditions)
     
     if sequence == "PriceL2H":
-        query += "ORDER BY price ASC"
+        query += " ORDER BY price ASC"
     
     if sequence == "PriceH2L":
-        query += "ORDER BY price DESC"
+        query += " ORDER BY price DESC"
         
-    if sequence == "LikeH2L":
-        query += "ORDER BY like ASC"
+    if sequence == "LikesH2L":
+        query += " ORDER BY likes ASC"
 
     if sequence == "MostRecent":
-        query += "ORDER BY update_timestamp DESC"
+        query += " ORDER BY update_timestamp DESC"
 
 
     # execute query
     items = cursor.execute(query, params).fetchall()
-
+    
+    if not items:  # fetchall() return [], items will never be None
+        return("No items found")
+    
     conn.close()
 
     #return filtered items to html
     return render_template("filter.html", items=items)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
