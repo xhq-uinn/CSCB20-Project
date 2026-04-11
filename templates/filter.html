@@ -4,7 +4,7 @@
 
 <h1> Search </h1>
 
-<form method="get" action="/filter">
+<form method="GET" action="/filter">
 
     <!-- keyword -->
     <input type="text" name="keyword" placeholder="Enter the keyword">
@@ -89,9 +89,12 @@
     {% for item in items %}
     <div class="product_card">
 
-        <a href="/item/{{ item[0] }}">
-            <img src="{{ item[4] }}" class="product-img-index">
-        </a>
+        <form action="/item" method="GET">
+            <input type="hidden" name="item_id" value="{{ item[0] }}">
+            <button type="submit">
+                <img src="{{ item[4] }}" class="product-img-index">
+            </button>
+        </form>
 
         <h3>{{ item[1] }}</h3>
 

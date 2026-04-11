@@ -16,7 +16,7 @@
 
     grid-template-columns: repeat(11, 1fr);
     grid-template-rows: repeat(2, 40px);
-    background-color: rgba(251, 81, 78, 0.822);
+    background-color: rgb(244, 110, 108);
     color: white;
     gap: 10px;
     width: 100%;
@@ -26,20 +26,20 @@
 .cate {
     display: flex;
     flex-direction: column;
-
     border-radius: 20px;
-    background-color: rgba(251, 81, 78, 0.822);
+    background-color: rgb(244, 110, 108);
     color: white;
-
-    width: 100%;
-    height: 100%;
+    width: 280px;
+    height: 950px;
     padding: 20px;
+    border-right: 5px solid #ddd;
 }
 
 .item {
     display: flex;
     align-items: center;
     gap: 10px;
+    /* background-color: beige; */
 }
 
 .cate-list {
@@ -79,6 +79,7 @@
     font-size: 30px;
     font-weight: bold;
     cursor: pointer;
+    margin-left: 20px;
 }
 
 #functions {
@@ -99,6 +100,8 @@
     border-style: solid;
     align-items: center;
     background-color: beige;
+    padding-left: 20px;
+    margin-left: 15px;
 }
 
 #search input {
@@ -122,14 +125,13 @@
 
 .btns {
     background-color: white;
-    border-radius: 5px;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     color: black;
-    cursor: pointer;
+    border: none;
+    padding: 10px 20px;
     font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
 .bottom {
@@ -140,13 +142,11 @@
 .cate_and_OTHER {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 30px;
 }
 
 .header_and_list {
     display: flex;
     flex-direction: column;
     flex: 1;
-    /* border-style: solid;
-    border-color: aqua; */
 }

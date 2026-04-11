@@ -5,6 +5,22 @@
     border-radius: 10px;
 }
 
+.product_card button {
+    width: 100%;
+    padding: 10px 15px;
+
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+
+    text-align: left;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+
+    cursor: pointer;
+}
+
 .product-img-home {
     border-radius: 20px;
     margin: 20px;
@@ -12,8 +28,8 @@
     width: 160px;
     height: 200px;
 
-    object-fit: cover;
-    /* 图片不变形 */
+    object-fit: contain;
+    /* 使图片完整 */
 }
 
 .product-grid {

@@ -2,14 +2,24 @@
 <html>
 
 <head>
-   Log In
+   <link rel="stylesheet" href="/static/login.css">
 </head>
+
 <body>
-   <form method="post" action="/login">
-    <input type="text" name="email" placeholder="Enter email">
-    <input type="password" name="password" placeholder="Enter password">
-    <button type="submit">Log In</button>
-   </form>
+   <div class="login-container">
+
+      <h1>Log In</h1>
+
+      <form method="post" action="/login">
+         <input type="text" name="email" placeholder="Enter email" required>
+         <input type="password" name="password" placeholder="Enter password" required>
+         <button type="submit">Log In</button>
+      </form>
+
+      <div class="signup-link">
+         <a href="/signup">Don't have an account yet? Sign up</a>
+      </div>
+   </div>
 </body>
 
 </html>

@@ -2,6 +2,7 @@
 # import fake items from external csv
 # conduct data cleaning
 
+print("START")
 import pandas as pd
 import random
 import math
@@ -10,8 +11,6 @@ import json
 from datetime import datetime, timedelta
 import os
 import sqlite3
-
-
 
 
 def init_db():
@@ -28,7 +27,9 @@ def init_db():
             product_specification TEXT,
             condition TEXT,
             update_timestamp TEXT,
-            likes INTEGER DEFAULT 0
+            likes INTEGER DEFAULT 0,
+            uid INTEGER,
+            FOREIGN KEY (uid) REFERENCES users(uid)
         )
         """
     )

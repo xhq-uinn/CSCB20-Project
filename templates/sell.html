@@ -3,85 +3,75 @@
 {% block content %}
 
 <h1 class="header">SELL AN ITEM</h1>
-<form action="/sell" method="POST" enctype="multipart/form-data"></form>
-<div>
-    <h3>Please upload photos of the product:</h3>
 
-    <div class="image">
-        <input type="file" name="image" accept="iamge/*">
-        <!-- accept是只能选图片的格式 -->
+<form action="/sell" method="POST" enctype="multipart/form-data">
+
+    <div>
+        <h3>Please upload photos of the product:</h3>
+
+        <div class="image">
+            <input type="file" name="image" accept="image/*">
+            <!-- accept是只能选图片的格式 -->
+        </div>
     </div>
-</div>
 
-<div class="each">
-    <h3>Product Price: ($)</h3>
-    <input type="integer" name="price">
-</div>
+    <div class="each">
+        <h3>Product Price: ($)</h3>
+        <input type="number" name="price">
+    </div>
 
-<div class="each">
-    <h3>Product Name:</h3>
-    <input type="text" name="name">
-</div>
+    <div class="each">
+        <h3>Product Name:</h3>
+        <input type="text" name="name">
+    </div>
 
-<div class="each">
-    <h3>Product Specification:</h3>
-    <input type="text" name="description">
-</div>
+    <div class="each">
+        <h3>Product Specification:</h3>
+        <input type="text" name="description">
+    </div>
 
-<div class="each">
-    <h3>Product Category:</h3>
-    <select>
-        <option value="Clothing">Clothing</option>
-        <option value="Pens & Stationery">Pens & Stationery</option>
-        <option value="Home Decor & Festive Needs">Home Decor & Festive Needs</option>
-        <option value="Furniture">Furniture</option>
-        <option value="Computers">Computers</option>
-        <option value="Sports & Fitness">Sports & Fitness</option>
-        <option value="Beauty and Personal Care">Beauty and Personal Care</option>
-        <option value="Bags, Wallets & Belts">Bags, Wallets & Belts</option>
-        <option value="Pet Supplies">Pet Supplies</option>
-        <option value="Tools & Hardware">Tools & Hardware</option>
-        <option value="Jewellery">Jewellery</option>
-        <option value="Gaming">Gaming</option>
-        <option value="eBooks">eBooks</option>
-    </select>
-</div>
+    <div class="each">
+        <h3>Product Category:</h3>
+        <select name="category">
+            <option value="" disabled selected>Category</option>
 
-<div class="each">
-    <h3>Product Condition:</h3>
-    <select>
-        <option value="Poor Condition">Poor Condition</option>
-        <option value="Visible Scratches or Stains">Visible Scratches or Stains</option>
-        <option value="Minor Scratches or Stains">Minor Scratches or Stains</option>
-        <option value="Like New">Like New</option>
-        <option value="Brand New">Brand New</option>
-    </select>
-</div>
+            <option value="Automotive">Automotive</option>
+            <option value="Baby Care">Baby Care</option>
+            <option value="Bags, Wallets & Belts">Bags, Wallets & Belts</option>
+            <option value="Beauty and Personal Care">Beauty and Personal Care</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Computers">Computers</option>
+            <option value="Footwear">Footwear</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Home Decor & Festive Needs">Home Decor & Festive Needs</option>
+            <option value="Home Furnishing">Home Furnishing</option>
+            <option value="Jewellery">Jewellery</option>
+            <option value="Kitchen & Dining">Kitchen & Dining</option>
+            <option value="Mobiles & Accessories">Mobiles & Accessories</option>
+            <option value="Pens & Stationery">Pens & Stationery</option>
+            <option value="Sports & Fitness">Sports & Fitness</option>
+            <option value="Tools & Hardware">Tools & Hardware</option>
+            <option value="Toys & School Supplies">Toys & School Supplies</option>
+            <option value="Watches">Watches</option>
+        </select>
+    </div>
 
-<div class="delivery">
-    <h3>Delivery Method:</h3>
-    <label>
-        <input type="radio" name="delivery" value="pickup">Pick up
-    </label>
-    <label>
-        <input type="radio" name="delivery" value="delivery">Delivery
-    </label>
-</div>
+    <div class="each">
+        <h3>Product Condition:</h3>
+        <select name="condition">
+            <option value="" disabled selected>Condition</option>
 
-<div class="each">
-    <h3>Email:</h3>
-    <input type="text" name="email">
-</div>
+            <option value="Brand New">Brand New</option>
+            <option value="Like New">Like New</option>
+            <option value="Minor Scratches or Stain">Minor Scratches or Stain</option>
+            <option value="Visible Scratches or Stain">Visible Scratches or Stain</option>
+            <option value="Poor Condition">Poor Condition</option>
+        </select>
+    </div>
 
-<div class="each">
-    <h3>Contact Number:</h3>
-    <input type="text" name="number">
-</div>
-
-<div class="btn">
-    <button class="sell-btn" id="sell-upload" type="submit">POST</button>
-</div>
-
+    <div class="btns-in-sell">
+        <button class="btn" type="submit">POST</button>
+    </div>
 </form>
 
 {% endblock %}

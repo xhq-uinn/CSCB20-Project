@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/static/index.css">
     <link rel="stylesheet" href="/static/home.css">
     <link rel="stylesheet" href="/static/sell.css">
+    <link rel="stylesheet" href="/static/item.css">
 </head>
 
 <body>
@@ -27,14 +28,14 @@
             <div id="functions" class="item">
                 <div class="btns" id="sell">Sell</div>
 
-                <div><a href="..."><img src=/static/pictures/cart.png height="25" width="30"></a></div>
+                <div><a href="/like_check"><img src=/static/pictures/like.png height="30" width="30"></a></div>
 
                 <div><a href="/profile"><img src=/static/pictures/account.png height="25" width="25"></a></div>
             </div>
 
             <div id="search" class="item">
-                <img src="/static/pictures/search_icon.png" height="20" width="20">
-                <form method="get" action="/filter">
+                <img src="/static/pictures/search_icon.png" height="25" width="25">
+                <form method="get" action="/search">
                     <input type="text" name="keyword" placeholder="Search for Anything">
                 </form>
             </div>
@@ -64,153 +65,111 @@
             <div>
                 <ul class="cate-list">
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Automotive">Automotive</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Baby Care">Baby Care</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Bags, Wallets & Belts">Bags, Wallets &
                                 Belts</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Beauty and Personal Care">Beauty and Personal
                                 Care</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Clothing">Clothing</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Footwear">Footwear</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Furniture">Furniture</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Home Decor & Festive Needs">Home Decor &
                                 Festive Needs</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Home Furnishing">Home Furnishing</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Jewellery">Jewellery</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Kitchen & Dining">Kitchen & Dining</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Mobiles & Accessories">Mobiles &
                                 Accessories</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Pens & Stationery">Pens & Stationery</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Sports & Fitness">Sports & Fitness</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Tools & Hardware">Tools & Hardware</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Toys & School Supplies">Toys & School
                                 Supplies</button>
                         </form>
                     </li>
 
                     <li>
-                        <form action="/filter" method="POST">
+                        <form action="/category" method="GET">
                             <button type="submit" name="category" value="Watches">Watches</button>
                         </form>
                     </li>
-
-                    <!-- <li><a href="{{ url_for('filter_page', category='Baby Care') }}">Baby Care</a></li>
-
-                    <li><a href="{{ url_for('filter_page', category='Bags, Wallets & Belts') }}">Bags, Wallets &
-                            Belts</a></li>
-
-                    <li><a href="{{ url_for('filter_page', category='Beauty and Personal Care') }}">Beauty and
-                            Personal Care</a></li>
-
-                    <li><a href="{{ url_for('filter_page', category='Clothing') }}">Clothing</a></li>
-
-                    <li><a href="{{ url_for('filter_page', category='Footwear') }}">Footwear</a></li>
-
-                    <li><a href="{{ url_for('filter_page', category='Furniture') }}">Furniture</a></li>
-
-                    <li><a href="{{ url_for('filter_page', category='Home Decor & Festive Needs') }}">Home Decor &
-                            Festive Needs</a></li>
-
-                    <li><a href="{{ url_for('filter_page', category='Home Furnishing') }}">Home Furnishing</a></li>
-
-                    <li><a href="{{ url_for('filter_page', category='Jewellery') }}">Jewellery</a></li>
-
-                    <li><a href="{{ url_for('filter_page', category='Kitchen & Dining') }}">Kitchen & Dining</a>
-                    </li>
-
-                    <li><a href="{{ url_for('filter_page', category='Mobiles & Accessories') }}">Mobiles &
-                            Accessories</a></li>
-
-                    <li><a href="{{ url_for('filter_page', category='Pens & Stationery') }}">Pens & Stationery</a>
-                    </li>
-
-                    <li><a href="{{ url_for('filter_page', category='Sports & Fitness') }}">Sports & Fitness</a>
-                    </li>
-
-                    <li><a href="{{ url_for('filter_page', category='Tools & Hardware') }}">Tools & Hardware</a>
-                    </li>
-
-                    <li><a href="{{ url_for('filter_page', category='Toys & School Supplies') }}">Toys & School
-                            Supplies</a></li>
-
-                    <li><a href="{{ url_for('filter_page', category='Watches') }}">Watches</a></li>
-                     -->
                 </ul>
             </div>
         </section>
