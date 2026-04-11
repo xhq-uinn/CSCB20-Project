@@ -23,7 +23,9 @@ def init_db():
             product_specification TEXT,
             condition TEXT,
             update_timestamp TEXT,
-            likes INTEGER DEFAULT 0
+            likes INTEGER DEFAULT 0,
+            uid INTEGER,
+            FOREIGN KEY (uid) REFERENCES users(uid)
         )
         """
     )
@@ -260,6 +262,22 @@ def login():
             return "Login failed"
         
     return render_template("login.html")
+
+@app.route("/profile", methods=["GET"])
+def profile():
+    conn = sqlite3.connect("items.db")
+    cursor = conn.cursor()
+
+    if "uid" in session:
+        uid = session["uid"]
+
+        user = cursor.execute("SELECT * FROM users WHERE uid=?", (uid,)).fetchone()
+        username = user[1]
+        listings = cursor.execute("SELECT * FROM items WHERE uid=?", (uid,)).fetchall()
+        return render_template("profile.html", username=username, listings=listings)
+
+    return render_template("login.html")
+
 
 @app.route("/logout")
 def logout():

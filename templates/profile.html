@@ -1,0 +1,17 @@
+<! DOCTYPE HTML>
+<html>
+    <head>
+        My Profile
+    </head>
+    <body>
+        {%if session.get("uid") and username and password}
+        Username: {{username}}
+        {%endif%}
+        My Listings: 
+        {%for listing in listings%}
+        {{listing[1]}}
+        {{listing[2]}}
+        {%endfor%}
+
+    </body>
+</html>
