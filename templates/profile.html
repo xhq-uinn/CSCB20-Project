@@ -9,8 +9,8 @@
         {%endif%}
         My Listings: 
         {%for listing in listings%}
-        {{listing[1]}}
-        {{listing[2]}}
+        <a href="/item?id=listing[0]">{{listing[1]}}
+        {{listing[2]}}</a>
         {%endfor%}
 
     </body>
