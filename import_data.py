@@ -2,7 +2,7 @@
 # import fake items from external csv
 # conduct data cleaning
 
-print("START")
+# print("START")
 import pandas as pd
 import random
 import math

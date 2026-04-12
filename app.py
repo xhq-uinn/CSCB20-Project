@@ -373,11 +373,12 @@ def profile():
         user = cursor.execute("SELECT * FROM users WHERE uid=?", (uid,)).fetchone()
 
         username = user[1]
+        email = user[2]
 
         item_post = cursor.execute("SELECT * FROM items WHERE uid=?", (uid,)).fetchall()
         item_like = cursor.execute("SELECT items.* FROM items JOIN likes ON items.id = likes.iid WHERE likes.uid=?", (uid,)).fetchall()
 
-        return render_template("profile.html", username=username, item_post=item_post, item_like=item_like)
+        return render_template("profile.html", username=username, email=email, item_post=item_post, item_like=item_like)
 
     return render_template("login.html")
 
