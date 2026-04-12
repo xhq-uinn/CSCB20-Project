@@ -19,11 +19,11 @@
         <p class="info"><strong>Condition: </strong>{{ item[6] }}</p>
 
         <p class='info'>
-            <strong>Specifications:</strong>
+            <strong>Specifications:</strong><br>
             {% if item[5] %}
-            {{ item[5]}}
+            <div style="white-space: pre-line; font-size: 20px;">{{ item[5] }}</div>
             {% else %}
-            No specifications available.
+            This seller didn't write specifications.
             {% endif %}
         </p>
     </div>

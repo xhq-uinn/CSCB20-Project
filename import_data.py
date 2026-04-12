@@ -8,9 +8,12 @@ import random
 import math
 import ast
 import json
+import re
 from datetime import datetime, timedelta
 import os
 import sqlite3
+import requests
+
 
 
 def init_db():
@@ -88,8 +91,11 @@ df["retail_price"] = pd.to_numeric(df["retail_price"], errors="coerce")
 
 #original "retail_price" too large, so divided by 100 and take ceiling function
 df["price"] = df["retail_price"].apply(
-    lambda x: math.ceil(x / 100) if pd.notna(x) else None
+    lambda x: math.ceil(x / 100) if pd.notna(x) else None    
 )
+df["price"] = df["retail_price"].apply(
+    lambda x: math.ceil(x / 100) if pd.notna(x) else 1
+).astype(int)
 
 #original item images is a list, we take first valid image from it
 def get_first_valid_image(image_str):
@@ -111,6 +117,80 @@ def get_first_valid_image(image_str):
 
 df["image_url"] = df["image"].apply(get_first_valid_image)
 
+def is_basic_valid_image_url(url):
+    if pd.isna(url) or not isinstance(url, str):
+        return False
+
+    url = url.strip()
+    if not url:
+        return False
+
+    return url.startswith("http://") or url.startswith("https://")
+
+def is_reachable_image_url(url, timeout=5):
+    if pd.isna(url) or not isinstance(url, str):
+        return False
+
+    url = url.strip()
+    if not url:
+        return False
+
+    if not (url.startswith("http://") or url.startswith("https://")):
+        return False
+
+    try:
+        r = requests.head(url, timeout=timeout, allow_redirects=True)
+
+        if r.status_code == 200:
+            content_type = r.headers.get("Content-Type", "").lower()
+            return content_type.startswith("image/") or content_type == ""
+
+        if r.status_code in (403, 405):
+            r = requests.get(url, timeout=timeout, stream=True, allow_redirects=True)
+            if r.status_code == 200:
+                content_type = r.headers.get("Content-Type", "").lower()
+                return content_type.startswith("image/")
+
+        return False
+    except:
+        return False
+    
+df = df[df["image_url"].apply(is_reachable_image_url)]
+
+
+
+
+def clean_product_specification(raw):
+    if pd.isna(raw) or not isinstance(raw, str) or not raw.strip():
+        return ""
+
+    try:
+        pairs = re.findall(r'"key"=>"(.*?)",\s*"value"=>"(.*?)"', raw, flags=re.DOTALL)
+
+        cleaned_pairs = []
+        seen_keys = set()
+
+        for k, v in pairs:
+            k = re.sub(r"\s+", " ", k).strip()
+            v = re.sub(r"\s+", " ", v).strip()
+
+            if not k or not v:
+                continue
+
+            # 同一个 key 只保留第一次
+            if k in seen_keys:
+                continue
+
+            seen_keys.add(k)
+            cleaned_pairs.append(f"{k}: {v}")
+
+        return "\n".join(cleaned_pairs)
+
+    except Exception as e:
+        print("SPEC CLEAN ERROR:", e)
+        return ""
+    
+df["spec_clean"] = df["product_specifications"].apply(clean_product_specification)
 
 # add new column: condition(random)
 conditions = [
@@ -164,7 +244,7 @@ params = [
         row["category"],
         row["price"],
         row["image_url"],
-        row["product_specifications"],
+        row["spec_clean"],
         row["condition"],
         row["update_timestamp"],
         row["likes"],

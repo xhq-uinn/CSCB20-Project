@@ -83,28 +83,36 @@ def index():
     cursor.execute("SELECT * FROM items ORDER BY update_timestamp DESC LIMIT 6")
     new_items = cursor.fetchall()
 
-    cursor.execute("SELECT * FROM items WHERE likes>=? LIMIT 6", (1,))
+    cursor.execute("SELECT * FROM items WHERE likes >= ? LIMIT 6", (1,))
     feature_items = cursor.fetchall()
 
-    cursor.execute("SELECT * FROM items WHERE price > ? AND price < ? AND category = ? LIMIT 6", (10, 50, "Pens & Stationery"))
+    cursor.execute(
+        "SELECT * FROM items WHERE price > ? AND price < ? AND category = ? LIMIT 6",
+        (10, 50, "Pens & Stationery")
+    )
     exam_items = cursor.fetchall()
+
+    username = None
 
     if "uid" in session:
         uid = session["uid"]
-        
-        user = cursor.execute("SELECT * FROM users WHERE uid=?", (uid,)).fetchone()
-        username = user[1]
+        user = cursor.execute("SELECT * FROM users WHERE uid = ?", (uid,)).fetchone()
 
-        conn.close()
+        if user is not None:
+            username = user[1]
+        else:
+            session.clear()
 
-        return render_template("index.html", new_items=new_items, feature_items=feature_items, exam_items=exam_items, username=username)
-    
     conn.close()
 
-    return render_template("index.html", new_items=new_items, feature_items=feature_items, exam_items=exam_items)
+    return render_template(
+        "index.html",
+        new_items=new_items,
+        feature_items=feature_items,
+        exam_items=exam_items,
+        username=username
+    )
 
-
-# home page
 # take 20 items, pass them to HTML
 # @app.route("/home")
 # def home():
@@ -402,53 +410,69 @@ def like_check():
     return render_template("login.html")
 
 
-@app.route("/sell", methods=["GET","POST"])
+@app.route("/sell", methods=["GET", "POST"])
 def sell():
-    if "uid" in session:
-        conn = sqlite3.connect("items.db")
-        cursor = conn.cursor()
-        
-        uid = session["uid"]
+    if "uid" not in session:
+        return redirect("/login")
 
-        cursor.execute("SELECT * FROM users WHERE uid=?", (uid,))
-        user = cursor.fetchone()
+    uid = session["uid"]
+
+    conn = sqlite3.connect("items.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM users WHERE uid = ?", (uid,))
+    user = cursor.fetchone()
+
+    if user is None:
+        conn.close()
+        session.clear()
+        return redirect("/login")
+
+    if user is None:
+        username = None
+    else:
         username = user[1]
 
+    if request.method == "POST":
+        name = request.form.get("name")
+        price = request.form.get("price")
+        description = request.form.get("description")
+        category = request.form.get("category")
+        condition = request.form.get("condition")
+
+        file = request.files.get("image")
+
+        image_path = ""
+        if file and file.filename != "":
+            filename = secure_filename(file.filename)
+            os.makedirs("static/uploads", exist_ok=True)
+            image_path = os.path.join("static/uploads", filename)
+            file.save(image_path)
+
+        cursor.execute(
+            """
+            INSERT INTO items
+            (name, category, price, image, product_specification, condition, update_timestamp, uid)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                name,
+                category,
+                int(price) if price else None,
+                image_path,
+                description,
+                condition,
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                uid,
+            ),
+        )
+
+        conn.commit()
         conn.close()
+        return redirect("/profile")
 
-        if request.method == "POST":
-            uid = session["uid"]
-
-            name = request.form.get("name")
-            price = request.form.get("price")
-            description = request.form.get("description")
-            category = request.form.get("category")
-            condition = request.form.get("condition")
-
-            file = request.files.get("image")
-
-            # 把用户上传的图片安全地保存到 static 文件夹，并生成一个可以在网页显示的路径
-            image_path = ""
-            if file and file.filename != "":
-                filename = secure_filename(file.filename)
-                image_path = os.path.join("static/uploads", filename)
-
-                # 确保文件夹存在
-                os.makedirs("static/uploads", exist_ok=True)
-
-                file.save(image_path)
-
-            cursor.execute("""INSERT INTO items (name, category, price, image, product_specification, condition, update_timestamp, uid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""", 
-                           (name, category, int(price), image_path, description, condition, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), uid))
-
-            conn.commit()
-            conn.close()
-            
-            return redirect("/profile")
-        
-        return render_template("sell.html", username=username)
-    
-    return redirect('/login')
+    conn.close()
+    return render_template("sell.html", username=username)
 
 
 @app.route("/logout")
