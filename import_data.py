@@ -1,7 +1,3 @@
-# In this file we:
-# import fake items from external csv
-# conduct data cleaning
-
 import pandas as pd
 import random
 import math
@@ -9,8 +5,9 @@ import ast
 from datetime import datetime, timedelta
 import sqlite3
 import requests
+from concurrent.futures import ThreadPoolExecutor
 
-
+# ================= DB =================
 def init_db():
     conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
@@ -35,137 +32,132 @@ def init_db():
     conn.close()
 
 
+# ================= DATA CLEAN =================
 def get_main_category(category_str):
     if pd.isna(category_str):
         return None
-
     try:
         category_list = ast.literal_eval(category_str)
-
         if isinstance(category_list, list) and len(category_list) > 0:
             first_path = category_list[0]
-
             if isinstance(first_path, str) and first_path.strip():
                 return first_path.split(">>")[0].strip()
-
         return None
-    except Exception:
+    except:
         return None
 
 
 def get_first_valid_image(image_str):
     if pd.isna(image_str):
         return ""
-
     try:
         image_list = ast.literal_eval(image_str)
-
         if isinstance(image_list, list):
             for img in image_list:
                 if isinstance(img, str) and img.strip():
                     return img.strip()
-
         return ""
-    except Exception as e:
-        print("IMAGE PARSE ERROR:", e)
+    except:
         return ""
 
 
-def is_reachable_image_url(url, timeout=5):
-    if pd.isna(url) or not isinstance(url, str):
+# ================= 🚀 FAST IMAGE CHECK =================
+session = requests.Session()
+
+def is_reachable_image_url_fast(url, timeout=3):
+    if not isinstance(url, str):
         return False
 
     url = url.strip()
-    if not url:
-        return False
-
-    if not (url.startswith("http://") or url.startswith("https://")):
+    if not url.startswith("http"):
         return False
 
     try:
-        r = requests.head(url, timeout=timeout, allow_redirects=True)
+        r = session.head(url, timeout=timeout, allow_redirects=True)
 
         if r.status_code == 200:
             content_type = r.headers.get("Content-Type", "").lower()
-            return content_type.startswith("image/") or content_type == ""
+            return "image" in content_type or content_type == ""
 
         if r.status_code in (403, 405):
-            r = requests.get(url, timeout=timeout, stream=True, allow_redirects=True)
+            r = session.get(url, timeout=timeout, stream=True)
             if r.status_code == 200:
                 content_type = r.headers.get("Content-Type", "").lower()
-                return content_type.startswith("image/")
+                return "image" in content_type
 
         return False
-    except Exception:
+    except:
         return False
 
 
+def filter_images_parallel(urls, max_workers=30):
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        results = list(executor.map(is_reachable_image_url_fast, urls))
+    return results
+
+
+# ================= RANDOM DATA =================
 def random_datetime(start, end):
     delta_seconds = int((end - start).total_seconds())
-    random_seconds = random.randint(0, delta_seconds)
-    return start + timedelta(seconds=random_seconds)
+    return start + timedelta(seconds=random.randint(0, delta_seconds))
 
 
-# read original csv file
+# ================= MAIN =================
+
+# 1️⃣ 读取数据
 df = pd.read_csv("data/flipkart_com-ecommerce_sample.csv")
 
-# delete unwanted columns
+# 2️⃣ 删除不需要列
 columns_to_drop = [
-    "uniq_id",
-    "crawl_timestamp",
-    "product_url",
-    "pid",
-    "discounted_price",
-    "is_FK_Advantage_product",
-    "product_rating",
-    "overall_rating",
-    "brand",
-    "description",
+    "uniq_id", "crawl_timestamp", "product_url", "pid",
+    "discounted_price", "is_FK_Advantage_product",
+    "product_rating", "overall_rating", "brand", "description",
 ]
 df = df.drop(columns=columns_to_drop, errors="ignore")
 
-# deal with empty value first
+# 3️⃣ 处理空值
 df["product_name"] = df["product_name"].fillna("Unknown Product")
 df["product_specifications"] = df["product_specifications"].fillna("")
 df["product_category_tree"] = df["product_category_tree"].fillna("Unknown Category")
 
-# change category tree to the first category in the tree
+# 4️⃣ 分类处理
 df["category"] = df["product_category_tree"].apply(get_main_category)
-
 category_counts = df["category"].value_counts()
 valid_categories = category_counts[category_counts >= 100].index
 df = df[df["category"].isin(valid_categories)]
 
-# change retail_price to numeric type
+# 5️⃣ 价格处理
 df["retail_price"] = pd.to_numeric(df["retail_price"], errors="coerce")
-
-# original retail_price too large, so divide by 100 and take ceiling
-# if missing, set to 1
 df["price"] = df["retail_price"].apply(
     lambda x: math.ceil(x / 100) if pd.notna(x) else 1
 ).astype(int)
 
-# original item images is a list, we take first valid image from it
+# 6️⃣ 图片处理
 df["image_url"] = df["image"].apply(get_first_valid_image)
 
+# 🚀 ⭐ 限制数据量（很重要）
+df = df.head(20000)
+
+# 🚀 ⭐ 快速过滤非法 URL
+df = df[df["image_url"].str.startswith("http")]
+
 print("Rows before image filtering:", len(df))
-df = df[df["image_url"].apply(is_reachable_image_url)]
+
+# 🚀 ⭐ 并发检查图片
+mask = filter_images_parallel(df["image_url"].tolist(), max_workers=30)
+df = df[mask]
+
 print("Rows after image filtering:", len(df))
 
-# set all specifications to fixed text
+# 7️⃣ 其他字段
 df["spec_clean"] = "This seller did not provide specifications."
 
-# add new column: condition(random)
 conditions = [
-    "Brand New",
-    "Like New",
-    "Minor Scratches or Stains",
-    "Visible Scratches or Stains",
-    "Poor Condition",
+    "Brand New", "Like New", "Minor Scratches or Stains",
+    "Visible Scratches or Stains", "Poor Condition",
 ]
 df["condition"] = [random.choice(conditions) for _ in range(len(df))]
 
-# add new column: update_timestamp(random)
 end_time = datetime(2026, 4, 1, 23, 59, 59)
 start_time = end_time - timedelta(days=365)
 
@@ -174,18 +166,18 @@ df["update_timestamp"] = [
     for _ in range(len(df))
 ]
 
-# add new column: likes(initial value 0)
 df["likes"] = 0
 
+# ================= DB INSERT =================
 init_db()
 
 conn = sqlite3.connect("items.db")
 
-insert_sql = (
-    "INSERT INTO items "
-    "(name, category, price, image, product_specification, condition, update_timestamp, likes) "
-    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-)
+insert_sql = """
+INSERT INTO items 
+(name, category, price, image, product_specification, condition, update_timestamp, likes) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+"""
 
 params = [
     (
