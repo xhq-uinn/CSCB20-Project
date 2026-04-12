@@ -12,7 +12,11 @@
 
         <p class="price">Price: ${{ item[3] }}</p>
 
-        <p class="info"><strong>like: </strong>{{ item[8] }}</p>
+        <p class="info">
+            <span style="color:rgb(44, 169, 56); font-style: italic; font-size: 30px;"> <strong>{{ item[8]
+                    }}</strong></span>
+            <span>people liked this item</span>
+        </p>
 
         <p class="info"><strong>Category: </strong>{{ item[2] }}</p>
 
@@ -21,19 +25,19 @@
         <p class='info'>
             <strong>Specifications:</strong><br>
             {% if item[5] %}
-            <div style="white-space: pre-line; font-size: 20px;">{{ item[5] }}</div>
-            {% else %}
-            This seller didn't write specifications.
-            {% endif %}
+        <div style="white-space: pre-line; font-size: 20px;">{{ item[5] }}</div>
+        {% else %}
+        This seller didn't write specifications.
+        {% endif %}
         </p>
     </div>
 
     <div class="btns-in-item">
         <a href="/like?item_id={{ item[0] }}" class="btn" id="like">❤️ LIKE</a>
     </div>
-    <div class="btns-in-item">
+    <!-- <div class="btns-in-item">
         <a href="/like?item_id={{ item[0] }}" class="btn" id="buy">Buy</a>
-    </div>
+    </div> -->
 </div>
 
 <div>
