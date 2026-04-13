@@ -52,19 +52,19 @@ def init_db():
         )
         """
     )
-    cursor.execute( #orders table
-        """
-        CREATE TABLE IF NOT EXISTS orders (
-            oid INTEGER PRIMARY KEY AUTOINCREMENT,
-            uid INTEGER,
-            iid INTEGER,
-            timestamp TEXT,
-            FOREIGN KEY (uid) REFERENCES users(uid),
-            FOREIGN KEY (iid) REFERENCES items(id)
-        )
-        """
+    # cursor.execute( #orders table
+    #     """
+    #     CREATE TABLE IF NOT EXISTS orders (
+    #         oid INTEGER PRIMARY KEY AUTOINCREMENT,
+    #         uid INTEGER,
+    #         iid INTEGER,
+    #         timestamp TEXT,
+    #         FOREIGN KEY (uid) REFERENCES users(uid),
+    #         FOREIGN KEY (iid) REFERENCES items(id)
+    #     )
+    #     """
 
-    )
+    # )
     conn.commit()
     conn.close()
 
