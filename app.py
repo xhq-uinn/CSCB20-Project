@@ -185,12 +185,13 @@ def item():
         uid = session["uid"]
 
         cursor.execute("SELECT * FROM users WHERE uid=?", (uid,))
-        user = cursor.fetchone()
-        username = user[1]
+        seller = cursor.fetchone()
+        # username = user[1]
+        # user=user
 
         conn.close()
 
-        return render_template("item.html", item=item, username=username)
+        return render_template("item.html", item=item, seller=seller)
     
 
     conn.close()

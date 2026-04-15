@@ -24,6 +24,7 @@
         This seller didn't write specifications.
         {% endif %}
         </p>
+        
     </div>
 
     <a href="/like?item_id={{ item[0] }}" id="like" class="like-link">
@@ -38,10 +39,28 @@
         </div>
     </a>
 
-    <!-- <div class="btns-in-item">
-        <a href="/like?item_id={{ item[0] }}" class="btn" id="buy">Buy</a>
-    </div> -->
+    <div class="btns-in-item">
+        <button id="buyBtn" class="btn">Buy</button>
+    </div>
 </div>
+
+<div id="modalOverlay" class="modal-overlay">
+    <div class="modal-box">
+
+        <span id="closeBtn" class="close-btn">✖</span>
+
+        <h2>Seller Information</h2>
+
+        {% if seller %}
+            <p><strong>Name:</strong> {{ seller[1] }}</p>
+            <p><strong>Email:</strong> {{ seller[2] }}</p>
+        {% else %}
+            <p>No seller info</p>
+        {% endif %}
+
+    </div>
+</div>
+
 
 <div>
     {% with messages = get_flashed_messages() %}
@@ -50,5 +69,7 @@
     {% endfor %}
     {% endwith %}
 </div>
+
+
 
 {% endblock %}
