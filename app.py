@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "yes-this-is-a-secret"
 
 # initialize: items(id(PK), name, category, price, image,
-# product_specification, condition, update_timestamp, likes)
+# product_specification, condition, update_timestamp, likes, uid)
 def init_db():
     conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
