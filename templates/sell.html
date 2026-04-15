@@ -10,29 +10,29 @@
         <h3>Please upload photos of the product:</h3>
 
         <div class="image">
-            <input type="file" name="image" accept="image/*">
+            <input type="file" name="image" accept="image/*" required>
             <!-- accept是只能选图片的格式 -->
         </div>
     </div>
 
     <div class="each">
         <h3>Product Price: ($)</h3>
-        <input type="number" name="price">
+        <input type="number" name="price" required>
     </div>
 
     <div class="each">
         <h3>Product Name:</h3>
-        <input type="text" name="name">
+        <input type="text" name="name" required>
     </div>
 
     <div class="each">
         <h3>Product Specification:</h3>
-        <input type="text" name="description">
+        <input type="text" name="description" required>
     </div>
 
     <div class="each">
         <h3>Product Category:</h3>
-        <select name="category">
+        <select name="category" required>
             <option value="" disabled selected>Category</option>
 
             <option value="Automotive">Automotive</option>
@@ -58,7 +58,7 @@
 
     <div class="each">
         <h3>Product Condition:</h3>
-        <select name="condition">
+        <select name="condition" required>
             <option value="" disabled selected>Condition</option>
 
             <option value="Brand New">Brand New</option>

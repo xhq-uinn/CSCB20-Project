@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <title> D&B UTSC Marketplace </title>
+<title> D&B UTSC Marketplace </title>
 
 <head>
     <meta charset="UTF-8">
@@ -12,174 +12,179 @@
     <link rel="stylesheet" href="/static/home.css">
     <link rel="stylesheet" href="/static/sell.css">
     <link rel="stylesheet" href="/static/item.css">
+    <link rel="stylesheet" href="/static/profile.css">
 </head>
 
 <body>
-    <Section class="all-top">
-        <!-- TOP -->
-        <div class="top_layout">
-            <div id="welcome" class="item">
-                {% if not (session.get("uid") and username)%}
-                Welcome to D&B UTSC Market
-                {% else %}
-                Welcome, {{username}}!
-                {% endif %}
+    <div class="container">
+        <Section class="all-top">
+            <!-- TOP -->
+            <div class="top_layout">
+                <div id="welcome" class="item">
+                    {% if not (session.get("uid") and username)%}
+                    Welcome to D&B UTSC Market
+                    {% else %}
+                    Welcome, {{username}}!
+                    {% endif %}
+                </div>
+
+                <div id="functions" class="item">
+                    <div class="btns" id="sell">Sell</div>
+
+                    <div><a href="/like_check"><img src=/static/pictures/like.png height="30" width="30"></a></div>
+
+                    <div><a href="/profile"><img src=/static/pictures/account.png height="25" width="25"></a></div>
+                </div>
+
+                <div id="search" class="item">
+                    <img src="/static/pictures/search_icon.png" height="25" width="25">
+                    <form method="get" action="/search">
+                        <input type="text" name="keyword" placeholder="Search for Anything">
+                    </form>
+                </div>
+
+                <div id="other" class="item">
+                    {% if not session.get("uid") %}
+                    <div class="btns" id="login">Log In</div>
+                    <div class="btns" id="signup">Sign Up</div>
+                    {% else %}
+                    <a href="/logout" class="btns">Log Out</a>
+                    {% endif %}
+                </div>
             </div>
 
-            <div id="functions" class="item">
-                <div class="btns" id="sell">Sell</div>
-
-                <div><a href="/like_check"><img src=/static/pictures/like.png height="30" width="30"></a></div>
-
-                <div><a href="/profile"><img src=/static/pictures/account.png height="25" width="25"></a></div>
+            <!-- Advertise-banner -->
+            <div class="bottom">
+                <img src="/static/pictures/banner.jpg" class="banner">
             </div>
+        </Section>
 
-            <div id="search" class="item">
-                <img src="/static/pictures/search_icon.png" height="25" width="25">
-                <form method="get" action="/search">
-                    <input type="text" name="keyword" placeholder="Search for Anything">
-                </form>
-            </div>
+        <!-- Category and OTHER -->
+        <section class="cate_and_OTHER">
+            <!-- Category -->
+            <section id="category" class="cate">
+                <h3>Category</h3>
 
-            <div id="other" class="item">
-                {% if not session.get("uid") %}
-                <div class="btns" id="login">Log In</div>
-                <div class="btns" id="signup">Sign Up</div>
-                {% else %}
-                <a href="/logout" class="btns">Log Out</a>
-                {% endif %}
-            </div>
-        </div>
+                <div>
+                    <ul class="cate-list">
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Automotive">Automotive</button>
+                            </form>
+                        </li>
 
-        <!-- Advertise-banner -->
-        <div class="bottom">
-            <img src="/static/pictures/banner.jpg" class="banner">
-        </div>
-    </Section>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Baby Care">Baby Care</button>
+                            </form>
+                        </li>
 
-    <!-- Category and OTHER -->
-    <section class="cate_and_OTHER">
-        <!-- Category -->
-        <section id="category" class="cate">
-            <h3>Category</h3>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Bags, Wallets & Belts">Bags, Wallets &
+                                    Belts</button>
+                            </form>
+                        </li>
 
-            <div>
-                <ul class="cate-list">
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Automotive">Automotive</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Beauty and Personal Care">Beauty and
+                                    Personal
+                                    Care</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Baby Care">Baby Care</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Clothing">Clothing</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Bags, Wallets & Belts">Bags, Wallets &
-                                Belts</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Footwear">Footwear</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Beauty and Personal Care">Beauty and Personal
-                                Care</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Furniture">Furniture</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Clothing">Clothing</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Home Decor & Festive Needs">Home Decor &
+                                    Festive Needs</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Footwear">Footwear</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Home Furnishing">Home Furnishing</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Furniture">Furniture</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Jewellery">Jewellery</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Home Decor & Festive Needs">Home Decor &
-                                Festive Needs</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Kitchen & Dining">Kitchen & Dining</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Home Furnishing">Home Furnishing</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Mobiles & Accessories">Mobiles &
+                                    Accessories</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Jewellery">Jewellery</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Pens & Stationery">Pens &
+                                    Stationery</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Kitchen & Dining">Kitchen & Dining</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Sports & Fitness">Sports & Fitness</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Mobiles & Accessories">Mobiles &
-                                Accessories</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Tools & Hardware">Tools & Hardware</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Pens & Stationery">Pens & Stationery</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Toys & School Supplies">Toys & School
+                                    Supplies</button>
+                            </form>
+                        </li>
 
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Sports & Fitness">Sports & Fitness</button>
-                        </form>
-                    </li>
-
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Tools & Hardware">Tools & Hardware</button>
-                        </form>
-                    </li>
-
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Toys & School Supplies">Toys & School
-                                Supplies</button>
-                        </form>
-                    </li>
-
-                    <li>
-                        <form action="/category" method="GET">
-                            <button type="submit" name="category" value="Watches">Watches</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+                        <li>
+                            <form action="/category" method="GET">
+                                <button type="submit" name="category" value="Watches">Watches</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <!-- Additinal content in index or other pages -->
+            <section class="OTHER">
+                {% block content %}
+                {% endblock %}
+            </section>
         </section>
-        <!-- Additinal content in index or other pages -->
-        <section class="header_and_list">
-            {% block content %}
-            {% endblock %}
-        </section>
-    </section>
+    </div>
 
     <script src="/static/main.js"></script>
 </body>

@@ -12,12 +12,6 @@
 
         <p class="price">Price: ${{ item[3] }}</p>
 
-        <p class="info">
-            <span style="color:rgb(44, 169, 56); font-style: italic; font-size: 30px;"> <strong>{{ item[8]
-                    }}</strong></span>
-            <span>people liked this item</span>
-        </p>
-
         <p class="info"><strong>Category: </strong>{{ item[2] }}</p>
 
         <p class="info"><strong>Condition: </strong>{{ item[6] }}</p>
@@ -32,9 +26,18 @@
         </p>
     </div>
 
-    <div class="btns-in-item">
-        <a href="/like?item_id={{ item[0] }}" class="btn" id="like">❤️ LIKE</a>
-    </div>
+    <a href="/like?item_id={{ item[0] }}" id="like" class="like-link">
+        <div class="like-container">
+            <div class="heart">
+                <p>❤️</p>
+            </div>
+
+            <div>
+                <p class="info"><strong>{{ item[8]}} likes</strong></p>
+            </div>
+        </div>
+    </a>
+
     <!-- <div class="btns-in-item">
         <a href="/like?item_id={{ item[0] }}" class="btn" id="buy">Buy</a>
     </div> -->

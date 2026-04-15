@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1 class="header"> Hey, {{username}}</h1>
+<p class="header"> Hey, {{username}}</p>
 <h3>Name: {{username}}</h3>
 <h3>Email address: {{email}}</h3>
 (Note: Email address will be visible to buyers)
@@ -10,27 +10,37 @@
 <br>
 
 <div>
-    <h3>Posted Items:</h3>
+    <div class="index-header">
+        <h3>Items you posted:</h3>
+        <button class="btn" id="see-all"><a href="/profile_post_all" class="link">View All</a></button>
+    </div>
+
+    <div class=" info">
+        {% if not item_post %}
+        <p>You haven't posted any items yet. Start by posting your first item!</p>
+        {% endif %}
+    </div>
+
     <div class="product-grid">
         {% for item in item_post %}
         <div class="product_card">
-
             <form action="/item" method="GET">
                 <input type="hidden" name="item_id" value="{{ item[0] }}">
                 <button type="submit">
                     <img src="{{ item[4] }}" class="product-img-index">
                 </button>
             </form>
-
-            <h3>{{ item[1] }}</h3>
-
-            <p class="font">Price: ${{ item[3] }}</p>
-
         </div>
         {% endfor %}
     </div>
+</div>
 
-    <h3>Liked Items:</h3>
+<!-- <div>
+    <div class="index-header">
+        <h3>Items you Liked:</h3>
+        <button class="btn" id="see-all"><a href="/profile_like_all" class="link">ViewAll</a></button>
+    </div>
+
     <div class="product-grid">
         {% for item in item_like %}
         <div class="product_card">
@@ -40,13 +50,9 @@
                     <img src="{{ item[4] }}" class="product-img-index">
                 </button>
             </form>
-
-            <h3>{{ item[1] }}</h3>
-
-            <p class="font">Price: ${{ item[3] }}</p>
         </div>
         {% endfor %}
     </div>
-</div>
+</div> -->
 
 {% endblock %}

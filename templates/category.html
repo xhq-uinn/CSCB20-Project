@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>{{ category }}</h1>
+<h1 style="font-size: 24px;">{{ category }}</h1>
 
 <div>
     <form method="GET" action="/filter">
@@ -54,8 +54,9 @@
             <input type="checkbox" name="condition" value="Poor Condition">
             Poor Condition
         </label><br>
-
-        <button type="submit">Search</button>
+        <div class="btns-in-cate">
+            <button class="btn" type="submit">Search</button>
+        </div>
 
     </form>
 </div>

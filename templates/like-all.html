@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="header"> Hey, {{username}}</h1>
+
+<div>
+
+    <div class="index-header">
+        <h3>Items you Liked:</h3>
+        <button class="btn" id="see-all"><a href="/like_check" class="link">View Less</a></button>
+    </div>
+
+    <div class="info">
+        {% if not item_like %}
+        <p>You haven't liked any items yet. Start exploring and find something you like!</p>
+        {% endif %}
+    </div>
+
+    <div class="product-grid">
+        {% for item in item_like %}
+        <div class="product_card">
+            <form action="/item" method="GET">
+                <input type="hidden" name="item_id" value="{{ item[0] }}">
+                <button type="submit">
+                    <img src="{{ item[4] }}" class="product-img-index">
+                </button>
+            </form>
+
+            <h3>{{ item[1] }}</h3>
+
+            <p class="font">Price: ${{ item[3] }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
