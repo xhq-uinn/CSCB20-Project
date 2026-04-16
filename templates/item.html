@@ -24,7 +24,7 @@
         This seller didn't write specifications.
         {% endif %}
         </p>
-        
+
     </div>
 
     <a href="/like?item_id={{ item[0] }}" id="like" class="like-link">
@@ -52,10 +52,10 @@
         <h2>Seller Information</h2>
 
         {% if seller %}
-            <p><strong>Name:</strong> {{ seller[1] }}</p>
-            <p><strong>Email:</strong> {{ seller[2] }}</p>
+        <p><strong>Name:</strong> {{ seller[1] }}</p>
+        <p><strong>Email:</strong> {{ seller[2] }}</p>
         {% else %}
-            <p>Seller info invisible to unregistered users. Please log in.</p>
+        <p>Seller info invisible to unregistered users. Please log in.</p>
         {% endif %}
 
     </div>

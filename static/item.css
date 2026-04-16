@@ -39,14 +39,6 @@
     font-size: 20px;
 }
 
-.btns-in-item {
-    grid-column: 1 / 3;
-    grid-row: 3 / 4;
-
-    display: flex;
-    justify-content: flex-end;
-}
-
 .flash {
     background-color: #d4edda;
     color: black;
@@ -95,4 +87,11 @@
     font-size: 24px;
     color: #000000;
     font-weight: bold;
+}
+
+.btns-in-item {
+    grid-column: 1 / 3;
+    grid-row: 3 / 4;
+    display: flex;
+    justify-content: flex-end;
 }

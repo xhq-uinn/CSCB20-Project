@@ -54,7 +54,7 @@
             <input type="checkbox" name="condition" value="Poor Condition">
             Poor Condition
         </label><br>
-        <div class="btns-in-cate">
+        <div class="btns-in-sell">
             <button class="btn" type="submit">Search</button>
         </div>
 
@@ -62,24 +62,24 @@
 </div>
 
 <div class="scale-wrapper">
-<div class="product-grid">
-    {% for item in items %}
-    <div class="product_card">
+    <div class="product-grid">
+        {% for item in items %}
+        <div class="product_card">
 
-        <form action="/item" method="GET">
-            <input type="hidden" name="item_id" value="{{ item[0] }}">
-            <button type="submit">
-                <img src="{{ item[4] }}" class="product-img-index">
-            </button>
-        </form>
+            <form action="/item" method="GET">
+                <input type="hidden" name="item_id" value="{{ item[0] }}">
+                <button type="submit">
+                    <img src="{{ item[4] }}" class="product-img-index">
+                </button>
+            </form>
 
-        <h3>{{ item[1] }}</h3>
+            <h3>{{ item[1] }}</h3>
 
-        <p class="font">Price: ${{ item[3] }}</p>
+            <p class="font">Price: ${{ item[3] }}</p>
 
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
 </div>
 
 {% endblock %}

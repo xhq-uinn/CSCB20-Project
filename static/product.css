@@ -35,8 +35,3 @@
     /* 确保padding不会导致溢出 */
     flex-wrap: nowrap;
 }
-
-.font {
-    font-size: 16px;
-    font-weight: 300;
-}
