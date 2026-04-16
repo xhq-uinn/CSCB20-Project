@@ -74,14 +74,20 @@ def get_feature_items(uid): # Recommend "Items Your May Like" when user is logge
     """, (uid,)).fetchall()
 
     categories = [c[0] for c in categories]
-
+    
+    # if user havent liked any items, empty
+    # later will decide how to make up for the empty
     if not categories:
         conn.close()
         return []
 
     # recmd most liked items from the category
+    # join the top 3 categories this user likes
     placeholders = ",".join(["?"] * len(categories))
 
+    # 1. from the top 3 categories this user likes
+    # 2. not already liked by this user
+    # 3. DESC like high to low
     items = cursor.execute(f"""
         SELECT *
         FROM items
