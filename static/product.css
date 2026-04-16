@@ -22,12 +22,13 @@
 
 .product-grid {
     display: grid;
-
     grid-template-columns: repeat(5, 1fr);
 
     gap: 20px;
-    /* 每个商品之间的间距 */
     padding: 20px;
+
+    width: 1200px;   /* ⭐关键：固定宽度 */
+    box-sizing: border-box;
 }
 
 .font {

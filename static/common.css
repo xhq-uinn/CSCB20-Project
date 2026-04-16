@@ -143,3 +143,7 @@
     flex-direction: column;
     flex: 1;
 }
+
+.scale-wrapper {
+    transform-origin: top center;
+}

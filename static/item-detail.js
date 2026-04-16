@@ -19,3 +19,18 @@ modal.onclick = function(e) {
         modal.style.display = "none";
     }
 }
+
+function scalePage() {
+    const wrapper = document.querySelector(".scale-wrapper");
+    if (!wrapper) return;
+
+    const baseWidth = 1200;
+    const currentWidth = window.innerWidth;
+
+    const scale = currentWidth / baseWidth;
+
+    wrapper.style.transform = `scale(${scale})`;
+}
+
+window.addEventListener("resize", scalePage);
+window.addEventListener("load", scalePage);
