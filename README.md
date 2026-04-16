@@ -156,8 +156,7 @@ Displays:
 | Route | Method | Description |
 |------|--------|------------|
 | `/` | GET | Homepage (new, featured, exam items) |
-| `/category` | GET | Items by category |
-| `/filter` | GET | Advanced filtering |
+| `/category` | GET | Items by category, filtering |
 | `/search` | GET | Keyword search |
 | `/item` | GET | Item details |
 | `/like` | GET | Like an item |
