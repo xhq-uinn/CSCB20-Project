@@ -52,27 +52,49 @@ def init_db():
         )
         """
     )
-    # cursor.execute( #orders table
-    #     """
-    #     CREATE TABLE IF NOT EXISTS orders (
-    #         oid INTEGER PRIMARY KEY AUTOINCREMENT,
-    #         uid INTEGER,
-    #         iid INTEGER,
-    #         timestamp TEXT,
-    #         FOREIGN KEY (uid) REFERENCES users(uid),
-    #         FOREIGN KEY (iid) REFERENCES items(id)
-    #     )
-    #     """
-
-    # )
+    
     conn.commit()
     conn.close()
 
 init_db()
 
-# @app.before_first_request
-# def load_data():
-#     import import_data
+def get_feature_items(uid): # Recommend "Items Your May Like" when user is logged in
+    conn = sqlite3.connect("items.db")
+    cursor = conn.cursor()
+
+    # 1️⃣ 找用户最喜欢的 category
+    categories = cursor.execute("""
+        SELECT i.category
+        FROM items i
+        JOIN likes l ON i.id = l.iid
+        WHERE l.uid = ?
+        GROUP BY i.category
+        ORDER BY COUNT(*) DESC
+        LIMIT 3
+    """, (uid,)).fetchall()
+
+    categories = [c[0] for c in categories]
+
+    if not categories:
+        conn.close()
+        return []
+
+    # 2️⃣ 从这些 category 推荐热门商品
+    placeholders = ",".join(["?"] * len(categories))
+
+    items = cursor.execute(f"""
+        SELECT *
+        FROM items
+        WHERE category IN ({placeholders})
+        AND id NOT IN (
+            SELECT iid FROM likes WHERE uid = ?
+        )
+        ORDER BY likes DESC
+        LIMIT 5
+    """, (*categories, uid)).fetchall()
+
+    conn.close()
+    return items
 
 
 @app.route("/")
@@ -80,28 +102,57 @@ def index():
     conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
 
+    # new items recmd
     cursor.execute("SELECT * FROM items ORDER BY update_timestamp DESC LIMIT 6")
     new_items = cursor.fetchall()
 
-    cursor.execute("SELECT * FROM items WHERE likes >= ? LIMIT 6", (1,))
-    feature_items = cursor.fetchall()
+    username = None
+    feature_items = []
 
+    if "uid" in session:
+        uid = session["uid"]
+
+        user = cursor.execute(
+            "SELECT * FROM users WHERE uid = ?",
+            (uid,)
+        ).fetchone()
+
+        if user:
+            username = user[1]
+
+            feature_items = get_feature_items(uid)
+
+            # if items number < 6, recommend more
+            if len(feature_items) < 6:
+                more = cursor.execute("""
+                    SELECT *
+                    FROM items
+                    WHERE likes >= ?
+                    ORDER BY likes DESC
+                    LIMIT ?
+                """, (1, 6 - len(feature_items))).fetchall()
+
+                feature_items.extend(more)
+
+        else:
+            session.clear()
+
+    else:
+        # user not logged in
+        feature_items = cursor.execute("""
+            SELECT *
+            FROM items
+            WHERE likes >= ?
+            ORDER BY likes DESC
+            LIMIT 6
+        """, (1,)).fetchall()
+
+    # exam items recmd
     cursor.execute(
         "SELECT * FROM items WHERE price > ? AND price < ? AND category = ? LIMIT 6",
         (10, 50, "Pens & Stationery")
     )
     exam_items = cursor.fetchall()
-
-    username = None
-
-    if "uid" in session:
-        uid = session["uid"]
-        user = cursor.execute("SELECT * FROM users WHERE uid = ?", (uid,)).fetchone()
-
-        if user is not None:
-            username = user[1]
-        else:
-            session.clear()
 
     conn.close()
 
