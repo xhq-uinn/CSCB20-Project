@@ -24,20 +24,23 @@
         This seller didn't write specifications.
         {% endif %}
         </p>
-
+        
     </div>
 
-    <a href="/like?item_id={{ item[0] }}" id="like" class="like-link">
-        <div class="like-container">
-            <div class="heart">
-                <p>❤️</p>
-            </div>
+    <div class="like-container">
+        <button 
+            type="button"
+            class="like-btn"
+            data-item-id="{{ item[0] }}"
+            data-liked="{{ 'true' if item_liked else 'false' }}"
+        >
+            <span class="heart">{{ '❤️' if item_liked else '🤍' }}</span>
+        </button>
 
-            <div>
-                <p class="info"><strong>{{ item[8]}} likes</strong></p>
-            </div>
-        </div>
-    </a>
+        <p class="info">
+            <strong><span class="like-count">{{ item[8] }}</span> likes</strong>
+        </p>
+    </div>
 
     <div class="btns-in-item">
         <button id="buyBtn" class="btn">Buy</button>
@@ -52,10 +55,10 @@
         <h2>Seller Information</h2>
 
         {% if seller %}
-        <p><strong>Name:</strong> {{ seller[1] }}</p>
-        <p><strong>Email:</strong> {{ seller[2] }}</p>
+            <p><strong>Name:</strong> {{ seller[1] }}</p>
+            <p><strong>Email:</strong> {{ seller[2] }}</p>
         {% else %}
-        <p>Seller info invisible to unregistered users. Please log in.</p>
+            <p>Seller info invisible to unregistered users. Please log in.</p>
         {% endif %}
 
     </div>
