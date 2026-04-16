@@ -113,29 +113,6 @@ def index():
         username=username
     )
 
-# take 20 items, pass them to HTML
-# @app.route("/home")
-# def home():
-#     conn = sqlite3.connect("items.db")
-#     cursor = conn.cursor()
-#     items_20 = cursor.execute("SELECT * FROM items LIMIT 100").fetchall()
-#     conn.close()
-
-#     if "uid" in session:
-#         uid = session["uid"]
-
-#         conn = sqlite3.connect("items.db")
-#         cursor = conn.cursor()
-        
-#         user = cursor.execute("SELECT * FROM users WHERE uid=?", (uid,)).fetchone()
-#         username = user[1]
-
-#         conn.close()
-
-#         return render_template("home.html", items=items_20, username=username)
-    
-#     return render_template("home.html", items=items_20, username=username)
-
 
 # Category Page
 @app.route("/category")
@@ -324,8 +301,10 @@ def search():
 
         conn.close()
 
+        return render_template("search.html", items=items, username=username)
+
     #return filtered items to html
-    return render_template("search.html", items=items, username=username)
+    return render_template("search.html", items=items)
 
 
 @app.route("/signup", methods=["GET", "POST"])
