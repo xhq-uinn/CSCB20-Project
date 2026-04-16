@@ -90,7 +90,7 @@ def get_feature_items(uid): # Recommend "Items Your May Like" when user is logge
             SELECT iid FROM likes WHERE uid = ?
         )
         ORDER BY likes DESC
-        LIMIT 5
+        LIMIT 6
     """, (*categories, uid)).fetchall()
 
     conn.close()
