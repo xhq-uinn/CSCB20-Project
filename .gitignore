@@ -4,4 +4,4 @@ __pycache__/
 instance/
 .DS_Store
 # *.db
-static/uploads/
+# static/uploads/
