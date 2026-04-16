@@ -307,14 +307,22 @@ def filter_page():
     if sequence == "MostRecent":
         query += " ORDER BY update_timestamp DESC"
 
-
     # execute query
     items = cursor.execute(query, params).fetchall()
     
     # if not items:  # fetchall() return [], items will never be None
     #     return("No items found")
     # HTML里处理items为空
-    
+
+    if "uid" in session:
+        uid = session["uid"]
+
+        cursor.execute("SELECT * FROM users WHERE uid=?", (uid,))
+        user = cursor.fetchone()
+        username = user[1]
+
+        return render_template("category.html", items=items, category=category, username=username)
+
     conn.close()
 
     #return filtered items to html
