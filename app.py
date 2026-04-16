@@ -62,7 +62,7 @@ def get_feature_items(uid): # Recommend "Items Your May Like" when user is logge
     conn = sqlite3.connect("items.db")
     cursor = conn.cursor()
 
-    # 1️⃣ 找用户最喜欢的 category
+    # find the most liked category of this user
     categories = cursor.execute("""
         SELECT i.category
         FROM items i
@@ -79,7 +79,7 @@ def get_feature_items(uid): # Recommend "Items Your May Like" when user is logge
         conn.close()
         return []
 
-    # 2️⃣ 从这些 category 推荐热门商品
+    # recmd most liked items from the category
     placeholders = ",".join(["?"] * len(categories))
 
     items = cursor.execute(f"""
