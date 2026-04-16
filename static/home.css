@@ -21,17 +21,6 @@
     cursor: pointer;
 }
 
-.product-img-home {
-    border-radius: 20px;
-    margin: 20px;
-
-    width: 160px;
-    height: 200px;
-
-    object-fit: contain;
-    /* 使图片完整 */
-}
-
 .product-grid {
     display: grid;
 
