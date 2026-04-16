@@ -61,82 +61,25 @@
     </form>
 </div>
 
-<div>
-    <form method="GET" action="/filter">
-        <!-- hidden catgory -->
-        <input type="hidden" name="category" value="{{ category }}">
-
-        <!-- keyword -->
-        <input type="text" name="keyword" placeholder="Enter the keyword">
-
-        <!-- squence-->
-        <select name="sequence">
-            <option value="" disabled selected>Filter</option>
-            <option value="PriceL2H">Price Low to High</option>
-            <option value="PriceH2L">Price High to Low</option>
-            <option value="LikesH2L">Most Liked</option>
-            <option value="MostRecent">Recently Posted</option>
-        </select>
-
-        <!-- min price -->
-        <input type="number" name="min_price" placeholder="Min price">
-
-        <!-- max price -->
-        <input type="number" name="max_price" placeholder="Max price">
-
-        <!-- condition -->
-        <p>Condition:</p>
-
-        <label>
-            <input type="checkbox" name="condition" value="Brand New">
-            Brand New
-        </label><br>
-
-        <label>
-            <input type="checkbox" name="condition" value="Like New">
-            Like New
-        </label><br>
-
-        <label>
-            <input type="checkbox" name="condition" value="Minor Scratches or Stains">
-            Minor Scratches or Stain
-        </label><br>
-
-        <label>
-            <input type="checkbox" name="condition" value="Visible Scratches or Stains">
-            Visible Scratches or Stains
-        </label><br>
-
-        <label>
-            <input type="checkbox" name="condition" value="Poor Condition">
-            Poor Condition
-        </label><br>
-        <div class="btns-in-cate">
-            <button class="btn" type="submit">Search</button>
-        </div>
-
-    </form>
-</div>
-
 <div class="scale-wrapper">
-<div class="product-grid">
-    {% for item in items %}
-    <div class="product_card">
+    <div class="product-grid">
+        {% for item in items %}
+        <div class="product_card">
 
-        <form action="/item" method="GET">
-            <input type="hidden" name="item_id" value="{{ item[0] }}">
-            <button type="submit">
-                <img src="{{ item[4] }}" class="product-img-index">
-            </button>
-        </form>
+            <form action="/item" method="GET">
+                <input type="hidden" name="item_id" value="{{ item[0] }}">
+                <button type="submit">
+                    <img src="{{ item[4] }}" class="product-img-index">
+                </button>
+            </form>
 
-        <h3>{{ item[1] }}</h3>
+            <h3>{{ item[1] }}</h3>
 
-        <p class="font">Price: ${{ item[3] }}</p>
+            <p class="font">Price: ${{ item[3] }}</p>
 
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
 </div>
 
 {% endblock %}
