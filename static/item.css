@@ -90,3 +90,9 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.item-title {
+    font-size: 24px;
+    color: #000000;
+    font-weight: bold;
+}

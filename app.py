@@ -177,7 +177,6 @@ def item():
     cursor.execute("SELECT * FROM items WHERE id = ?", (item_id,))
     item = cursor.fetchone()
 
-    # 怎么处理item DNE？还没写完
     if item is None:
         return "Item not found"
     
@@ -185,13 +184,15 @@ def item():
         uid = session["uid"]
 
         cursor.execute("SELECT * FROM users WHERE uid=?", (uid,))
+        user = cursor.fetchone()
+        username = user[1]
+
+        cursor.execute("SELECT * FROM users u JOIN items i ON i.uid = u.uid WHERE i.id= ?", (item_id,))
         seller = cursor.fetchone()
-        # username = user[1]
-        # user=user
 
         conn.close()
 
-        return render_template("item.html", item=item, seller=seller)
+        return render_template("item.html", item=item, seller=seller, username=username)
     
 
     conn.close()
