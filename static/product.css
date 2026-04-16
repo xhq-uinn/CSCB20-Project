@@ -27,8 +27,13 @@
     gap: 20px;
     padding: 20px;
 
-    width: 1200px;   /* ⭐关键：固定宽度 */
+    width: 100%;
+    /* 改为100%而不是固定宽度1200px */
+    max-width: 1200px;
+    /* 可选：限制最大宽度 */
     box-sizing: border-box;
+    /* 确保padding不会导致溢出 */
+    flex-wrap: nowrap;
 }
 
 .font {
