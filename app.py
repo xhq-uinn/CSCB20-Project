@@ -422,23 +422,6 @@ def profile():
 
     return render_template("login.html")
 
-# @app.route("/profile_like_all")
-# def profile_like__all():
-#     conn = sqlite3.connect("items.db")
-#     cursor = conn.cursor()
-
-#     if "uid" in session:
-#         uid = session["uid"]
-
-#         user = cursor.execute("SELECT * FROM users WHERE uid=?", (uid,)).fetchone()
-
-#         username = user[1]
-#         email = user[2]
-
-#         item_post = cursor.execute("SELECT * FROM items WHERE uid=? LIMIT 5", (uid,)).fetchall()
-#         item_like = cursor.execute("SELECT items.* FROM items JOIN likes ON items.id = likes.iid WHERE likes.uid=?", (uid,)).fetchall()
-
-#         return render_template("profile-like-all.html", username=username, email=email, item_post=item_post, item_like=item_like)
     
 @app.route("/profile_post_all")
 def profile_post__all():
@@ -454,7 +437,6 @@ def profile_post__all():
         email = user[2]
 
         item_post = cursor.execute("SELECT * FROM items WHERE uid=?", (uid,)).fetchall()
-        # item_like = cursor.execute("SELECT items.* FROM items JOIN likes ON items.id = likes.iid WHERE likes.uid=? LIMIT 5", (uid,)).fetchall()
 
         return render_template("profile-post-all.html", username=username, email=email, item_post=item_post)
 

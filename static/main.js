@@ -10,18 +10,11 @@ sellbtn.addEventListener("click", function () {
 });
 
 const logInBtn = document.getElementById("login");
-logInBtn.addEventListener("click", function(){
+logInBtn.addEventListener("click", function () {
     window.location.href = "/login";
 });
 
 const signUpBtn = document.getElementById("signup")
-signUpBtn.addEventListener("click", function(){
+signUpBtn.addEventListener("click", function () {
     window.location.href = "/signup";
 });
-
-// const logOutBtn = document.getElementById("logout")
-// if(logOutBtn){  //necessary bc if user not logged in, logOutBtn is None, will error
-//     logOutBtn.addEventListener("click", function(){
-//     window.location.href = "/logout";
-// });
-// }
