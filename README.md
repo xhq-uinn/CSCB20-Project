@@ -2,8 +2,8 @@ CSCB20 - Project Report: D&B UTSC Marketplace
 
 University of Toronto Scarborough
 Team: DB Master
-Jiayi Zhang 1010979149
-Ziruo Wang 1011278859
+Jiayi Zhang 
+Ziruo Wang 
 April 16 2026
  
 Project overview
